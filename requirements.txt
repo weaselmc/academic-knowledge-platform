@@ -1,0 +1,15 @@
+crewai
+crewai-tools
+
+langchain
+langchain-ollama
+
+pydantic
+python-dotenv
+
+pandas
+openpyxl
+
+python-docx
+
+tiktoken

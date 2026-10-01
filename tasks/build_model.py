@@ -2,7 +2,7 @@
 
 from crewai import Knowledge, Task
 from agents.architect import architect
-from tasks import discovery_task
+from tasks.discovery_platform import discovery_task
 
 build_model_task = Task(
     description="""

@@ -2,6 +2,7 @@
 
 from crewai import Knowledge,Task
 from agents.flow_analyst import flow_agent
+
 flow_analysis_task = Task(
     description="""
     Analyse the supplied Power Automate artifacts:

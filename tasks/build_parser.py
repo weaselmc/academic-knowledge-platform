@@ -2,6 +2,9 @@
 
 from crewai import Knowledge,Task
 from agents.python_dev import python_agent
+from tasks.discovery_platform import discovery_task
+from tasks.build_model import build_model_task
+from tasks.build_sharepoint import sharepoint_task
 
 build_parser_task = Task(
     description="""
@@ -22,6 +25,12 @@ build_parser_task = Task(
     extraction workflow,
     normalization workflow.
     """,
+
+    context=[
+        discovery_task,
+        build_model_task,
+        sharepoint_task
+    ],
 
     agent=python_agent
 )

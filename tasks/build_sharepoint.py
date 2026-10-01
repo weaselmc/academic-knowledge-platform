@@ -2,6 +2,8 @@
 
 from crewai import Knowledge,Task
 from agents.sharepoint import sharepoint_agent
+from tasks.discovery_platform import discovery_task
+from tasks.build_model import build_model_task
 
 sharepoint_task = Task(
     description="""
@@ -30,6 +32,10 @@ sharepoint_task = Task(
     - Lookup Relationships
     - Deployment Recommendations
     """,
+    context=[
+        discovery_task,
+        build_model_task
+    ],
 
     agent=sharepoint_agent
 )

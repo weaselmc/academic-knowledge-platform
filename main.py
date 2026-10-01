@@ -7,8 +7,20 @@ repo = KnowledgeRepository()
 
 knowledge = repo.load()
 
-print("Knowledge loaded:")
-print(knowledge.keys())
+# print("Knowledge loaded")
+# print("=" * 50)
+
+# for category, files in knowledge.items():
+#     print(f"\n{category}")
+
+#     if isinstance(files, dict):
+#         print(f"Count: {len(files)}")
+
+#         for name in files.keys():
+#             print(f"  - {name}")
+
+# print("Knowledge loaded:")
+# print(knowledge.keys())
 
 result = crew.kickoff(
     inputs={

@@ -3,6 +3,7 @@
 from crewai import Knowledge, Task
 from agents.architect import architect
 from tasks.discovery_platform import discovery_task
+from tasks.gap_analysis import gap_analysis_task
 
 build_model_task = Task(
     description="""
@@ -12,7 +13,8 @@ build_model_task = Task(
     {knowledge}""",
 
     context=[
-        discovery_task
+        discovery_task,
+        gap_analysis_task
     ],
 
     expected_output="""

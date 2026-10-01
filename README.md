@@ -6,7 +6,7 @@ A platform for extracting, normalising and managing academic information across:
 - LAP
 - Assessment Plans
 - Validation Records
-- Registration Standards 2025
+- RTO Standards 2025
 - TAC Guidance
 - TIWA Policies
 - Training Package Data

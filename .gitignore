@@ -1,5 +1,5 @@
 __pycache__
-
+last_run.json
 data/**
 !data/.gitkeep
 

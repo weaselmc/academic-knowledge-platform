@@ -7,21 +7,42 @@ from tasks.gap_analysis import gap_analysis_task
 
 build_model_task = Task(
     description="""
-    Design canonical academic data model"
+    Design a canonical academic governance and delivery data model for an RTO.
 
-    Knowledge:
-    {knowledge}""",
+    The model must support:
 
-    context=[
-        discovery_task,
-        gap_analysis_task
-    ],
+    - Qualifications
+    - Courses
+    - Clusters
+    - Units
+    - TASs
+    - LAPs
+    - Assessment Mapping Matrices
 
-    expected_output="""
-    Entity relationship model,
-    JSON schema,
-    implementation roadmap,
-    and normalization strategy.
+    - Industry Advisory Meetings
+    - Student Feedback
+    - Validation Findings
+    - Recommendations
+    - Continuous Improvements
+
+    - Change Requests
+    - Approval Workflows
+
+    - Versioned TASs
+    - Versioned LAPs
+    - Historical Reconstruction
+
+    - SharePoint storage
+    - Power Automate workflows
+    - Canvas publishing
+
+    - Auditor evidence chains
+
+    Data must be normalised so that information
+    is stored once and reused across all views.
+
+    No data may be physically deleted.
+    All changes must be versioned and auditable.
     """,
 
     agent=architect

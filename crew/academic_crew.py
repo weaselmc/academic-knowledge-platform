@@ -33,10 +33,10 @@ crew = Crew(
     tasks=[
         discovery_task,
         gap_analysis_task,
+        flow_analysis_task,
         build_model_task,
         sharepoint_task,
-        build_parser_task,
-        flow_analysis_task
+        build_parser_task        
     ],
 
     verbose=True

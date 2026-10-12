@@ -52,6 +52,22 @@ gap_analysis_task = Task(
     ],
 
     expected_output="""
+    Output Files
+
+    1. gap_analysis.md
+
+    2. existing_entities.yaml
+
+    3. missing_entities.yaml
+
+    4. relationships.yaml
+
+    5. missing_relationships.yaml
+
+    6. compliance_gaps.yaml
+
+    7. recommended_extensions.yaml
+
     Markdown report containing:
 
     # Current Platform Capability

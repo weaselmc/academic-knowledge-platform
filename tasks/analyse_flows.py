@@ -18,6 +18,15 @@ flow_analysis_task = Task(
     Treat the supplied artefacts as the authoritative
     source of evidence.
 
+    Model entity TYPES, not records.
+
+    Do not include examples, sample rows,
+    unit names, qualification names or
+    instance data unless required as evidence.
+
+    The objective is to discover schema,
+    relationships and metadata definitions.
+
     Identify and extract:
 
     - flows

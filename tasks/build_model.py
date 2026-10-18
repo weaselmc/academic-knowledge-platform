@@ -26,6 +26,13 @@ build_model_task = Task(
     Power Automate definitions, parser code, governance assets,
     standards documentation and knowledge repositories as
     evidence of the current implementation.
+    
+    Do not include examples, sample rows,
+    unit names, qualification names or
+    instance data unless required as evidence.
+
+    The objective is to discover schema,
+    relationships and metadata definitions.
 
     The objective is to create the authoritative platform
     data model that will drive:

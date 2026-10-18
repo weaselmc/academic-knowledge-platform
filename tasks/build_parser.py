@@ -24,6 +24,13 @@ build_parser_task = Task(
     Treat all existing parser code, extraction services,
     Azure Functions, normalization logic and ingestion
     components as evidence of the current implementation.
+    
+    Do not include examples, sample rows,
+    unit names, qualification names or
+    instance data unless required as evidence.
+
+    The objective is to discover schema,
+    relationships and metadata definitions.
 
     Determine:
 

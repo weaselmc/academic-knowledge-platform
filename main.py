@@ -1,60 +1,106 @@
 # main.py
 
+from pathlib import Path
+from datetime import datetime
+
 from crew.academic_crew import crew
 from repository import KnowledgeRepository
 
-repo = KnowledgeRepository()
 
-knowledge = repo.load()
+def create_output_folders():
+    """Create standard output structure."""
 
-# print("Knowledge loaded")
-# print("=" * 50)
+    folders = [
+        "outputs",
+        "outputs/platform",
+        "outputs/governance",
+        "outputs/architecture",
+        "outputs/sharepoint",
+        "outputs/implementation",
+        "outputs/review",
+        "outputs/logs"
+    ]
 
-# for category, files in knowledge.items():
-#     print(f"\n{category}")
+    for folder in folders:
+        Path(folder).mkdir(parents=True, exist_ok=True)
 
-#     if isinstance(files, dict):
-#         print(f"Count: {len(files)}")
 
-#         for name in files.keys():
-#             print(f"  - {name}")
+def main():
 
-# print("Knowledge loaded:")
-# print(knowledge.keys())
+    create_output_folders()
 
-result = crew.kickoff(
-    inputs={
-        "knowledge": knowledge,
-        "project": """
-        Build an academic platform that extracts
-        information from:
+    print("=" * 80)
+    print("Academic Knowledge Platform")
+    print("Crew Execution Started")
+    print("=" * 80)
 
-        - TAS
-        - LAP
-        - Assessment Plans
-        - Validation Records
-        - Registration Standards 2025
-        - TAC Guidance
-        - TIWA Policies
-        - Training Package Information
+    repo = KnowledgeRepository()
 
-        and stores all information in a
-        normalized central academic model.
-        """
-    }
-)
+    knowledge = repo.load()
 
-from pathlib import Path
+    print("Knowledge Repository Loaded")
+    print()
 
-Path("outputs").mkdir(
-exist_ok=True
-)
+    result = crew.kickoff(
+        inputs={
+            "knowledge": knowledge,
+            "project": """
+            Build an Academic Knowledge Platform that:
 
-with open(
-    "outputs/result.md",
-    "w",
-    encoding="utf-8"
-) as f:
-    f.write(str(result))
+            - Extracts information from TAS documents
+            - Extracts information from LAP documents
+            - Extracts information from Assessment Plans
+            - Extracts information from Mapping Matrices
+            - Extracts information from Validation Records
+            - Extracts information from Industry Consultation
+            - Extracts information from Student Feedback
+            - Extracts information from Registration Standards 2025
+            - Extracts information from TAC Guidance
+            - Extracts information from TIWA Policies
+            - Extracts information from Training Package Information
 
-print(result)
+            The platform must:
+
+            - Maintain a central source of truth
+            - Support governance requirements
+            - Support compliance requirements
+            - Support auditability
+            - Support version control
+            - Support historical reconstruction
+            - Support SharePoint Online
+            - Support Power Automate
+            - Support Knowledge Repository retrieval
+            - Support Canvas publication
+            - Support future CrewAI agents
+
+            Information should be normalised,
+            reusable and stored once wherever possible.
+            """
+        }
+    )
+
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+
+    summary_file = (
+        Path("outputs")
+        / f"crew_summary_{timestamp}.md"
+    )
+
+    summary_file.write_text(
+        str(result),
+        encoding="utf-8"
+    )
+
+    print()
+    print("=" * 80)
+    print("Crew Execution Complete")
+    print("=" * 80)
+    print()
+    print(f"Summary: {summary_file}")
+    print()
+
+    print(result)
+
+
+if __name__ == "__main__":
+    main()

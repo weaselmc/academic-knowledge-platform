@@ -6,147 +6,185 @@ from tasks.discovery_platform import discovery_task
 from tasks.build_model import build_model_task
 from tasks.build_sharepoint import sharepoint_task
 
-
 build_parser_task = Task(
     description="""
-    Analyse the current platform architecture and determine
-    the extraction, transformation, normalisation and
-    ingestion capabilities required to support the
-    Academic Knowledge Platform.
+    Build the canonical parser and ingestion specification
+    for the Academic Knowledge Platform.
 
     Repository Knowledge:
 
     {knowledge}
 
-    Review findings from:
+    Use outputs from:
 
     - Discovery Analysis
-    - Platform Architecture
-    - SharePoint Architecture
+    - Platform Model
+    - SharePoint Schema
 
-    Evaluate information sources including:
-
-    - TAS documents
-    - LAP documents
-    - Assessment Plans
-    - Assessment Mapping Matrices
-    - Validation Records
-    - Industry Advisory Documentation
-    - Student Feedback
-    - Employer Feedback
-    - Continuous Improvement Records
-    - Standards Documentation
-    - Compliance Requirements
-    - Policies and Procedures
-    - Training Package Information
+    Treat all existing parser code, extraction services,
+    Azure Functions, normalization logic and ingestion
+    components as evidence of the current implementation.
 
     Determine:
 
     - what information must be extracted
     - where information originates
-    - which entities are authoritative
-    - how information should be normalised
-    - how relationships should be created
-    - how version history should be preserved
-    - how evidence chains should be maintained
+    - authoritative source systems
+    - required metadata
+    - required relationships
+    - required validation logic
+    - ingestion requirements
+    - governance requirements
+    - audit requirements
+    - versioning requirements
+
+    Evaluate information sources including:
+
+    - Qualifications
+    - Accredited Courses
+    - Units
+    - Clusters
+    - TASs
+    - LAPs
+    - Assessment Plans
+    - Assessment Mapping Matrices
+    - Validation Records
+    - Industry Consultation Records
+    - Student Feedback
+    - Employer Feedback
+    - Continuous Improvement Records
+    - Policies
+    - Standards
+    - Compliance Documentation
+    - Training Package Data
 
     Identify:
 
-    - reusable extraction patterns
-    - reusable normalisation rules
-    - metadata requirements
-    - entity mapping requirements
-    - validation requirements
-    - ingestion requirements
+    - extraction requirements
+    - normalization requirements
+    - enrichment requirements
+    - entity mappings
+    - data quality requirements
     - relationship generation requirements
+    - SharePoint loading requirements
+    - Knowledge Repository requirements
 
-    Design technical capabilities that support:
+    Preserve existing working implementations where possible.
 
-    - knowledge extraction
-    - knowledge normalisation
-    - knowledge enrichment
-    - knowledge versioning
-    - governance traceability
-    - auditability
-    - SharePoint integration
-    - Canvas publishing
-    - Knowledge Repository ingestion
+    Output ONLY valid JSON.
 
-    Preserve existing working implementations where
-    possible and recommend extensions rather than
-    complete replacement.
-
-    Focus on practical implementation architecture
-    rather than high-level concepts.
+    No markdown.
+    No narrative report.
+    No explanations.
     """,
 
     expected_output="""
-    A technical implementation specification containing:
+{
+  "information_sources": [
+    {
+      "name": "",
+      "source_type": "",
+      "authority_level": "",
+      "owner": "",
+      "entities": []
+    }
+  ],
 
-    # Information Sources
+  "parser_requirements": [
+    {
+      "parser_name": "",
+      "source_type": "",
+      "responsibilities": [],
+      "supported_entities": []
+    }
+  ],
 
-    - Source Types
-    - Ownership
-    - Authority Levels
+  "entity_mappings": [
+    {
+      "source": "",
+      "target_entity": "",
+      "required_fields": [],
+      "optional_fields": [],
+      "relationships": []
+    }
+  ],
 
-    # Extraction Architecture
+  "normalization_rules": [
+    {
+      "entity": "",
+      "rule_type": "",
+      "description": ""
+    }
+  ],
 
-    - Parser Types
-    - Extraction Responsibilities
-    - Supported Artefacts
-    - Reusable Components
+  "metadata_requirements": [
+    {
+      "entity": "",
+      "field_name": "",
+      "data_type": "",
+      "required": true
+    }
+  ],
 
-    # Entity Mapping Model
+  "validation_rules": [
+    {
+      "entity": "",
+      "field": "",
+      "rule": "",
+      "severity": "Error|Warning|Info"
+    }
+  ],
 
-    For each source identify:
+  "relationship_generation": [
+    {
+      "parent_entity": "",
+      "child_entity": "",
+      "relationship_type": "",
+      "resolution_method": ""
+    }
+  ],
 
-    - Extracted Entities
-    - Entity Relationships
-    - Authority Sources
-    - Validation Rules
+  "sharepoint_loading": {
+    "lists": [
+      {
+        "list_name": "",
+        "entity": "",
+        "required_fields": []
+      }
+    ],
+    "lookup_relationships": []
+  },
 
-    # Normalisation Rules
+  "knowledge_repository": {
+    "knowledge_objects": [],
+    "classifications": [],
+    "metadata_requirements": []
+  },
 
-    - Data Standardisation
-    - Metadata Generation
-    - Relationship Resolution
-    - Versioning Strategy
+  "implementation_architecture": {
+    "python_modules": [],
+    "parser_classes": [],
+    "services": [],
+    "azure_functions": [],
+    "api_endpoints": []
+  },
 
-    # Knowledge Repository Integration
+  "code_validation": {
+    "existing_components": [],
+    "reusable_components": [],
+    "missing_capabilities": [],
+    "required_enhancements": []
+  },
 
-    - Knowledge Objects
-    - Metadata Requirements
-    - Taxonomies
-    - Classification Rules
-
-    # SharePoint Integration
-
-    - Target Lists
-    - Content Types
-    - Lookup Relationships
-
-    # Validation and Quality Controls
-
-    - Validation Rules
-    - Error Handling
-    - Data Quality Requirements
-
-    # Technical Architecture
-
-    - Python Modules
-    - Parser Classes
-    - Services
-    - Azure Functions
-    - API Requirements
-
-    # Implementation Roadmap
-
-    - Existing Components To Reuse
-    - Required Enhancements
-    - New Components Required
-
-    Focus on implementation-ready guidance.
-    """,
+  "ingestion_pipeline": [
+    {
+      "step": "",
+      "input": "",
+      "output": ""
+    }
+  ]
+}
+""",
 
     context=[
         discovery_task,
@@ -156,5 +194,5 @@ build_parser_task = Task(
 
     agent=python_agent,
 
-    output_file="outputs/implementation/parser_architecture.md"
+    output_file="outputs/models/parser_specification.json"
 )

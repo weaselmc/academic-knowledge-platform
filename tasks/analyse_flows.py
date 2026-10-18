@@ -13,129 +13,175 @@ flow_analysis_task = Task(
 
     {knowledge}
 
-    Reverse engineer the existing automation architecture.
+    Reverse engineer the existing automation implementation.
 
-    Treat the supplied artefacts as evidence of the
-    current production implementation.
+    Treat the supplied artefacts as the authoritative
+    source of evidence.
 
-    Identify:
+    Identify and extract:
 
     - flows
     - triggers
     - actions
+    - connectors
     - SharePoint dependencies
     - Azure Function dependencies
     - external integrations
-    - data transformations
-    - entity relationships
     - business rules
-    - information ownership
-    - source-of-truth systems
-    - automation boundaries
+    - entity relationships
+    - source systems
+    - target systems
+    - ownership boundaries
     - lifecycle events
+    - governance controls
 
     Determine:
 
     - how information enters the platform
     - how information moves through the platform
     - how information is transformed
+    - how information is synchronized
     - how information is published
     - which systems consume information
     - which systems produce information
-    - where duplication occurs
+    - where duplication exists
     - where governance controls exist
     - where governance controls are missing
 
-    Identify change propagation paths:
+    Identify change propagation paths.
 
-    For example:
+    Example:
 
     Qualification
-        -> Cluster
-            -> Unit
-                -> TAS
-                    -> LAP
-                        -> Canvas
+      -> Cluster
+        -> Unit
+          -> TAS
+            -> LAP
+              -> Canvas
 
-    Trace automation dependencies and document
-    potential downstream impacts.
-
-    Support all findings with evidence identified
-    in the supplied artefacts.
-
-    Classify findings as:
-
-    - Confirmed
-    - Strong Evidence
-    - Inferred
-    - Unknown
+    Extract automation metadata and relationships.
 
     Do not redesign the solution.
-    Focus on documenting and understanding
-    the current implementation.
+
+    Do not produce a narrative report.
+
+    Output valid JSON only.
+
+    No markdown.
+    No explanations.
+    No commentary.
     """,
 
     expected_output="""
-    A structured automation analysis containing:
+{
+  "flows": [
+    {
+      "name": "",
+      "status": "",
+      "trigger": {
+        "type": "",
+        "source": ""
+      },
+      "actions": [
+        {
+          "name": "",
+          "type": "",
+          "connector": ""
+        }
+      ]
+    }
+  ],
 
-    # Automation Inventory
+  "systems": [
+    {
+      "name": "",
+      "role": "source|target|both"
+    }
+  ],
 
-    - Flows
-    - Triggers
-    - Actions
-    - Integrations
+  "entities": [
+    {
+      "name": "",
+      "owner": "",
+      "source_of_truth": ""
+    }
+  ],
 
-    # Entity Usage Analysis
+  "relationships": [
+    {
+      "source_entity": "",
+      "target_entity": "",
+      "relationship_type": ""
+    }
+  ],
 
-    - Entities
-    - Relationships
-    - Ownership
-    - Source Systems
+  "transformations": [
+    {
+      "flow": "",
+      "source": "",
+      "target": "",
+      "transformation": ""
+    }
+  ],
 
-    # Automation Architecture
+  "business_rules": [
+    {
+      "rule": "",
+      "classification": "Confirmed|Strong Evidence|Inferred|Unknown",
+      "evidence": ""
+    }
+  ],
 
-    - Data Movement
-    - Transformation Logic
-    - Synchronisation Logic
-    - Publishing Logic
+  "dependencies": {
+    "sharepoint": [],
+    "azure_functions": [],
+    "canvas": [],
+    "external_integrations": []
+  },
 
-    # Business Rules
+  "data_flows": [
+    {
+      "source_system": "",
+      "target_system": "",
+      "flow_name": "",
+      "payload": ""
+    }
+  ],
 
-    - Explicit Rules
-    - Derived Rules
-    - Validation Rules
+  "change_propagation": [
+    {
+      "source_entity": "",
+      "affected_entity": "",
+      "impact": ""
+    }
+  ],
 
-    # Dependencies
+  "governance": {
+    "ownership_boundaries": [],
+    "existing_controls": [],
+    "missing_controls": []
+  },
 
-    - SharePoint Dependencies
-    - Azure Function Dependencies
-    - Integration Dependencies
-    - Canvas Dependencies
+  "risks": [
+    {
+      "risk": "",
+      "severity": "Low|Medium|High",
+      "description": ""
+    }
+  ],
 
-    # Change Propagation Analysis
+  "technical_debt": [
+    {
+      "issue": "",
+      "impact": ""
+    }
+  ],
 
-    - Upstream Dependencies
-    - Downstream Dependencies
-    - Impact Chains
-
-    # Governance Assessment
-
-    - Governance Controls
-    - Missing Controls
-    - Ownership Boundaries
-
-    # Risks and Technical Debt
-
-    - Duplicate Logic
-    - Single Points of Failure
-    - Maintenance Risks
-
-    # Recommended Follow-up Analysis
-
-    Areas requiring additional investigation.
-    """,
+  "unknowns": []
+}
+""",
 
     agent=flow_agent,
 
-    output_file="outputs/platform/automation_analysis.md"
+    output_file="outputs/models/automation_model.json"
 )

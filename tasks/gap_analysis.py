@@ -4,170 +4,79 @@ from agents.governance import governance_agent
 
 from tasks.discovery_platform import discovery_task
 
-
 gap_analysis_task = Task(
     description="""
     Analyse the current Academic Knowledge Platform using
-    the discovery inventory as the baseline.
+    the Discovery Model as the baseline.
 
     Discovery Findings:
 
-    {context}
+    Use the Discovery Model provided by the
+    Discovery Task as the authoritative baseline.
 
     Evaluate whether the platform contains sufficient
-    information, evidence, governance controls,
-    relationships and automation support to manage:
+    information, governance controls, evidence,
+    metadata, relationships and automation support
+    to manage:
 
     - Qualifications
     - Courses
     - Clusters
     - Units
-    - TAS management
-    - LAP management
-    - Assessment management
+    - TAS Management
+    - LAP Management
+    - Assessment Management
     - Assessment Mapping Matrices
-    - Validation activities
-    - Industry engagement
-    - Student feedback
-    - Employer feedback
-    - Continuous improvement
-    - Change management
-    - Knowledge management
-    - Audit evidence
-    - Canvas publishing
+    - Validation Activities
+    - Industry Engagement
+    - Student Feedback
+    - Employer Feedback
+    - Continuous Improvement
+    - Change Management
+    - Knowledge Management
+    - Audit Evidence
+    - Canvas Publishing
 
-    Evaluate compliance and governance requirements drawn
-    from:
+    Evaluate governance and compliance expectations
+    derived from:
 
     - Standards for RTOs 2025
     - Outcome Standards
     - Compliance Standards
-    - TAC guidance
-    - TIWA requirements
-    - Credential policies
-    - Training Package requirements
-
-    Identify:
-
-    1. Existing entities
-    2. Missing entities
-
-    3. Existing relationships
-    4. Missing relationships
-
-    5. Existing governance controls
-    6. Missing governance controls
-
-    7. Existing evidence sources
-    8. Missing evidence sources
-
-    9. Existing metadata
-    10. Missing metadata
-
-    11. Existing approval pathways
-    12. Missing approval pathways
-
-    13. Existing information ownership
-    14. Missing ownership definitions
-
-    15. Existing automation support
-    16. Missing automation support
-
-    17. Duplicated information
-    18. Conflicting information
-
-    19. Information stored only in documents
-
-    20. Information that should be represented
-        as structured data
+    - TAC Guidance
+    - TIWA Requirements
+    - Credential Policies
+    - Training Package Requirements
 
     Determine:
 
-    - What already exists
-    - What must exist
-    - What is missing
-    - What should be governed
-    - What should become structured data
-    - What should become reusable knowledge
+    - what currently exists
+    - what is missing
+    - what must be governed
+    - what must be auditable
+    - what requires ownership
+    - what requires approval workflows
+    - what requires evidence tracking
+    - what should be represented as structured data
+    - what should become reusable knowledge
 
-    Recommend enhancements that extend the
-    current platform.
+    Identify:
 
-    Do not redesign the platform from scratch.
-
-    Use the discovered implementation as the
-    authoritative baseline.
-
-    Focus on practical platform evolution,
-    governance maturity and compliance readiness.
-    """,
-
-    context=[
-        discovery_task
-    ],
-
-    expected_output="""
-    A governance and capability assessment containing:
-
-    # Current Platform Capability
-
-    - Existing Capabilities
-    - Existing Governance
-    - Existing Evidence Sources
-
-    # Coverage Analysis
-
-    ## Qualification Coverage
-
-    ## TAS Coverage
-
-    ## LAP Coverage
-
-    ## Assessment Coverage
-
-    ## Validation Coverage
-
-    ## Industry Engagement Coverage
-
-    ## Continuous Improvement Coverage
-
-    ## Knowledge Management Coverage
-
-    ## Compliance Coverage
-
-    # Entity Analysis
-
-    - Existing Entities
-    - Missing Entities
-    - Recommended Entities
-
-    # Relationship Analysis
-
-    - Existing Relationships
-    - Missing Relationships
-    - Governance Relationships
-
-    # Information Analysis
-
-    - Structured Information
-    - Information Only In Documents
-    - Missing Information
-    - Duplicated Information
-
-    # Governance Analysis
-
-    - Existing Controls
-    - Missing Controls
-    - Ownership Gaps
-    - Approval Gaps
-
-    # Evidence Analysis
-
-    - Existing Evidence
-    - Missing Evidence
-    - Audit Risks
-
-    # Compliance Analysis
+    - existing entities
+    - missing entities
+    - existing relationships
+    - missing relationships
+    - existing governance controls
+    - missing governance controls
+    - existing evidence
+    - missing evidence
+    - existing metadata
+    - missing metadata
+    - duplicated information
+    - conflicting information
+    - ownership gaps
+    - approval gaps
+    - automation gaps
 
     Classify findings as:
 
@@ -176,28 +85,162 @@ gap_analysis_task = Task(
     - Recommended
     - Optional
 
-    # Recommended Platform Extensions
+    Use the current platform implementation
+    as the baseline.
 
-    Prioritised by:
+    Focus on incremental evolution.
 
-    - Compliance Impact
-    - Governance Impact
-    - Operational Impact
-    - Implementation Complexity
+    Produce ONLY valid JSON.
 
-    # Priority Recommendations
-
-    High Priority
-
-    Medium Priority
-
-    Low Priority
-
-    Focus on practical, incremental enhancements
-    to the current implementation.
+    No markdown.
+    No narrative report.
+    No recommendations outside the JSON structure.
     """,
+
+    context=[
+        discovery_task
+    ],
+
+    expected_output="""
+{
+  "coverage_assessment": {
+    "qualification_management": "",
+    "course_management": "",
+    "unit_management": "",
+    "tas_management": "",
+    "lap_management": "",
+    "assessment_management": "",
+    "validation_management": "",
+    "industry_engagement_management": "",
+    "continuous_improvement_management": "",
+    "knowledge_management": "",
+    "compliance_management": ""
+  },
+
+  "entities": {
+    "existing": [],
+    "missing": [],
+    "required": [
+      {
+        "name": "",
+        "classification": "Mandatory|Required|Recommended|Optional",
+        "reason": ""
+      }
+    ]
+  },
+
+  "relationships": {
+    "existing": [],
+    "missing": [],
+    "required": [
+      {
+        "source_entity": "",
+        "target_entity": "",
+        "relationship_type": "",
+        "classification": "Mandatory|Required|Recommended|Optional"
+      }
+    ]
+  },
+
+  "metadata_requirements": [
+    {
+      "entity": "",
+      "field_name": "",
+      "classification": "Mandatory|Required|Recommended|Optional",
+      "reason": ""
+    }
+  ],
+
+  "governance_controls": {
+    "existing": [],
+    "missing": [],
+    "required": [
+      {
+        "control": "",
+        "classification": "Mandatory|Required|Recommended|Optional",
+        "reason": ""
+      }
+    ]
+  },
+
+  "approval_requirements": [
+    {
+      "object_type": "",
+      "approval_type": "",
+      "owner_role": "",
+      "classification": "Mandatory|Required|Recommended|Optional"
+    }
+  ],
+
+  "ownership_requirements": [
+    {
+      "entity": "",
+      "owner_role": "",
+      "classification": "Mandatory|Required|Recommended|Optional"
+    }
+  ],
+
+  "evidence_requirements": [
+    {
+      "evidence_type": "",
+      "classification": "Mandatory|Required|Recommended|Optional",
+      "purpose": ""
+    }
+  ],
+
+  "automation_requirements": {
+    "existing": [],
+    "missing": [],
+    "required": [
+      {
+        "capability": "",
+        "classification": "Mandatory|Required|Recommended|Optional"
+      }
+    ]
+  },
+
+  "information_analysis": {
+    "structured_information": [],
+    "document_only_information": [],
+    "missing_information": [],
+    "duplicated_information": [],
+    "conflicting_information": []
+  },
+
+  "compliance_requirements": [
+    {
+      "requirement": "",
+      "source": "",
+      "classification": "Mandatory|Required|Recommended|Optional",
+      "affected_entities": []
+    }
+  ],
+
+  "audit_requirements": [
+    {
+      "entity": "",
+      "audit_evidence": [],
+      "classification": "Mandatory|Required|Recommended|Optional"
+    }
+  ],
+
+  "platform_gaps": [
+    {
+      "gap": "",
+      "impact": "Compliance|Governance|Operational|Knowledge",
+      "classification": "Mandatory|Required|Recommended|Optional"
+    }
+  ],
+
+  "implementation_priorities": {
+    "high": [],
+    "medium": [],
+    "low": []
+  }
+}
+""",
 
     agent=governance_agent,
 
-    output_file="outputs/governance/gap_analysis.md"
+    output_file="outputs/models/compliance_requirements.json"
 )

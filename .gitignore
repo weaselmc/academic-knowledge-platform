@@ -1,10 +1,5 @@
 __pycache__
 
-.crewai/last_run.json
-
 data/**
-
 !data/.gitkeep
-
 outputs/**
-output/**

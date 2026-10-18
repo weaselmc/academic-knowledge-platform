@@ -2,7 +2,6 @@ from crewai import Task
 
 from agents.discovery import discovery_agent
 
-
 discovery_task = Task(
     description="""
     Analyse the supplied repository and all available
@@ -32,11 +31,11 @@ discovery_task = Task(
     - Assessment artefacts
     - Validation artefacts
     - Governance artefacts
-    - Continuous improvement artefacts
-    - Industry engagement artefacts
-    - Canvas-related artefacts
+    - Continuous Improvement artefacts
+    - Industry Engagement artefacts
+    - Canvas artefacts
 
-    Discover and document:
+    Discover:
 
     - entities
     - relationships
@@ -48,7 +47,6 @@ discovery_task = Task(
     - knowledge assets
     - taxonomies
     - metadata structures
-    - reusable information domains
     - business capabilities
 
     Determine:
@@ -62,15 +60,18 @@ discovery_task = Task(
 
     Identify:
 
-    - source-of-truth systems
+    - authoritative systems
+    - source-of-truth locations
     - duplicated information
     - conflicting information
     - upstream dependencies
     - downstream dependencies
-    - change propagation paths
+    - change propagation chains
 
-    For each significant discovery identify:
+    For every significant object identify:
 
+    - name
+    - type
     - source system
     - source artefact
     - ownership
@@ -84,85 +85,177 @@ discovery_task = Task(
     - Inferred
     - Unknown
 
-    Focus exclusively on understanding and
+    Focus exclusively on reverse engineering and
     documenting the current implementation.
 
-    Do not propose future-state solutions,
-    implementation recommendations or redesigns.
+    Do not redesign the solution.
+
+    Produce ONLY valid JSON.
+
+    No markdown.
+    No narrative report.
+    No recommendations.
     """,
 
     expected_output="""
-    Structured discovery inventory containing:
+{
+  "platform_capabilities": [
+    {
+      "name": "",
+      "description": "",
+      "confidence": "Confirmed|Strong Evidence|Inferred|Unknown"
+    }
+  ],
 
-    # Platform Capability Inventory
+  "systems": [
+    {
+      "name": "",
+      "type": "",
+      "purpose": "",
+      "owner": "",
+      "authority_level": "",
+      "confidence": "Confirmed|Strong Evidence|Inferred|Unknown"
+    }
+  ],
 
-    - Existing capabilities
-    - Existing systems
-    - Existing integrations
+  "entities": [
+    {
+      "name": "",
+      "type": "",
+      "purpose": "",
+      "owner": "",
+      "authority_level": "",
+      "source_system": "",
+      "source_artefact": "",
+      "consuming_systems": [],
+      "confidence": "Confirmed|Strong Evidence|Inferred|Unknown"
+    }
+  ],
 
-    # Entity Inventory
+  "relationships": [
+    {
+      "source_entity": "",
+      "target_entity": "",
+      "relationship_type": "",
+      "confidence": "Confirmed|Strong Evidence|Inferred|Unknown"
+    }
+  ],
 
-    For each entity:
+  "business_rules": [
+    {
+      "rule": "",
+      "source": "",
+      "confidence": "Confirmed|Strong Evidence|Inferred|Unknown"
+    }
+  ],
 
-    - Purpose
-    - Ownership
-    - Authority Level
-    - Related Entities
+  "workflows": [
+    {
+      "name": "",
+      "workflow_type": "Business|Automation|Knowledge",
+      "steps": [],
+      "systems": [],
+      "confidence": "Confirmed|Strong Evidence|Inferred|Unknown"
+    }
+  ],
 
-    # Relationship Inventory
+  "integrations": [
+    {
+      "source_system": "",
+      "target_system": "",
+      "integration_type": "",
+      "artefacts": [],
+      "confidence": "Confirmed|Strong Evidence|Inferred|Unknown"
+    }
+  ],
 
-    - Parent-child relationships
-    - Reference relationships
-    - Governance relationships
+  "authority_model": {
+    "source_of_truth_systems": [
+      {
+        "entity": "",
+        "system": ""
+      }
+    ],
 
-    # Authority Model
+    "derived_systems": [],
 
-    - Source-of-truth systems
-    - Derived information sources
-    - Consuming systems
+    "consumer_systems": []
+  },
 
-    # Workflow Inventory
+  "governance_controls": [
+    {
+      "control": "",
+      "owner": "",
+      "evidence_source": "",
+      "confidence": "Confirmed|Strong Evidence|Inferred|Unknown"
+    }
+  ],
 
-    - Business Processes
-    - Automation Processes
-    - Knowledge Flows
+  "knowledge_assets": [
+    {
+      "name": "",
+      "asset_type": "",
+      "classification": "",
+      "metadata": []
+    }
+  ],
 
-    # Integration Inventory
+  "taxonomies": [
+    {
+      "name": "",
+      "terms": []
+    }
+  ],
 
-    - SharePoint
-    - Power Automate
-    - Azure Functions
-    - Canvas
-    - External Systems
+  "metadata_structures": [
+    {
+      "entity": "",
+      "fields": []
+    }
+  ],
 
-    # Governance Inventory
+  "dependencies": {
+    "upstream": [
+      {
+        "entity": "",
+        "depends_on": ""
+      }
+    ],
 
-    - Governance Controls
-    - Approval Points
-    - Evidence Sources
+    "downstream": [
+      {
+        "entity": "",
+        "consumed_by": ""
+      }
+    ],
 
-    # Knowledge Inventory
+    "change_propagation": [
+      {
+        "source_entity": "",
+        "affected_entities": [],
+        "impact": ""
+      }
+    ]
+  },
 
-    - Knowledge Objects
-    - Taxonomies
-    - Metadata Structures
-    - Information Domains
+  "evidence": [
+    {
+      "artefact": "",
+      "finding": "",
+      "classification": "Confirmed|Strong Evidence|Inferred|Unknown"
+    }
+  ],
 
-    # Dependency Analysis
-
-    - Upstream Dependencies
-    - Downstream Dependencies
-    - Change Propagation Chains
-
-    # Confidence Assessment
-
-    - Confirmed Findings
-    - Strong Evidence Findings
-    - Inferred Findings
-    - Unknown Areas
-    """,
+  "unknowns": [
+    {
+      "area": "",
+      "reason": ""
+    }
+  ]
+}
+""",
 
     agent=discovery_agent,
 
-    output_file="outputs/platform/discovery_inventory.md"
+    output_file="outputs/models/discovery_inventory.json"
 )

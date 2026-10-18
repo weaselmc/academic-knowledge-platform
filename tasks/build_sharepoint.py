@@ -5,167 +5,220 @@ from agents.sharepoint import sharepoint_agent
 from tasks.discovery_platform import discovery_task
 from tasks.build_model import build_model_task
 
-
 sharepoint_task = Task(
     description="""
-    Analyse the existing SharePoint implementation and
-    determine the SharePoint architecture required to
-    support the Academic Knowledge Platform.
+    Build the canonical SharePoint schema for the
+    Academic Knowledge Platform.
 
     Repository Knowledge:
 
     {knowledge}
 
-    Use findings from:
+    Use outputs from:
 
     - Discovery Analysis
-    - Platform Architecture Model
+    - Platform Model
 
-    Treat existing SharePoint structures as evidence
-    of the current implementation.
+    Treat existing SharePoint assets as evidence of
+    the current implementation.
 
-    Review and analyse:
+    Analyse and identify:
 
-    - Lists
-    - Libraries
-    - Site Columns
-    - Content Types
-    - Views
-    - Metadata Structures
-    - Lookup Relationships
-    - Permissions
-    - Search Structures
-    - Automation Dependencies
+    - existing lists
+    - existing libraries
+    - existing content types
+    - existing site columns
+    - existing metadata
+    - existing relationships
+    - existing permissions
+    - existing governance controls
 
     Determine:
 
-    - what SharePoint structures currently exist
-    - which structures are authoritative
-    - which structures are duplicated
-    - which relationships already exist
-    - which governance controls exist
-    - what changes are required
-    - what new structures are required
+    - authoritative SharePoint locations
+    - ownership boundaries
+    - duplicate structures
+    - reusable components
+    - required enhancements
+    - required governance controls
+    - required retention controls
+    - required security controls
 
-    Ensure SharePoint can support:
+    Build the SharePoint information architecture
+    required to support:
 
     - Qualifications
-    - Courses
+    - Accredited Courses
     - Clusters
     - Units
     - TASs
     - LAPs
     - Assessments
     - Assessment Mapping Matrices
+    - Assessment Plans
     - Validation Activities
-    - Industry Advisory Records
+    - Industry Engagement
     - Student Feedback
     - Employer Feedback
     - Continuous Improvement
-    - Change Requests
+    - Recommendations
     - Approvals
     - Governance Records
+    - Change Requests
+    - Learning Resources
     - Knowledge Assets
     - Canvas Publishing
-    - Power Automate Automation
+    - Power Automate Integration
     - Audit Evidence
 
-    Identify:
+    Preserve existing structures where possible.
 
-    - source-of-truth locations
-    - ownership boundaries
-    - lookup requirements
-    - metadata requirements
-    - governance requirements
-    - retention requirements
-    - security boundaries
-    - integration dependencies
+    Extend rather than replace existing solutions
+    unless duplication or governance concerns
+    require redesign.
 
-    Preserve existing structures wherever possible.
+    Produce only valid JSON.
 
-    Recommend extensions and enhancements rather
-    than complete redesign unless clearly justified.
-
-    Focus on implementation-ready SharePoint architecture.
+    No markdown.
+    No narrative report.
+    No explanations.
     """,
 
     expected_output="""
-    A SharePoint implementation architecture containing:
+{
+  "site_architecture": {
+    "site_name": "",
+    "domains": [
+      {
+        "name": "",
+        "description": ""
+      }
+    ]
+  },
 
-    # Current SharePoint Assessment
+  "lists": [
+    {
+      "name": "",
+      "purpose": "",
+      "owner": "",
+      "authority_level": "",
+      "entity": "",
 
-    - Existing Lists
-    - Existing Libraries
-    - Existing Relationships
-    - Existing Governance Controls
+      "columns": [
+        {
+          "name": "",
+          "type": "",
+          "required": true,
+          "indexed": false,
+          "unique": false,
+          "description": ""
+        }
+      ]
+    }
+  ],
 
-    # Information Architecture
+  "document_libraries": [
+    {
+      "name": "",
+      "purpose": "",
+      "content_types": []
+    }
+  ],
 
-    - Site Structure
-    - Logical Domains
-    - Ownership Model
+  "content_types": [
+    {
+      "name": "",
+      "parent_content_type": "",
+      "site_columns": []
+    }
+  ],
 
-    # List Architecture
+  "site_columns": [
+    {
+      "name": "",
+      "type": "",
+      "required": true
+    }
+  ],
 
-    For each list define:
+  "managed_metadata": [
+    {
+      "term_set": "",
+      "terms": []
+    }
+  ],
 
-    - Purpose
-    - Ownership
-    - Authority Level
-    - Key Metadata
-    - Related Lists
+  "lookup_relationships": [
+    {
+      "source_list": "",
+      "source_column": "",
+      "target_list": "",
+      "target_column": "",
+      "relationship_type": ""
+    }
+  ],
 
-    # Content Type Architecture
+  "hierarchical_relationships": [
+    {
+      "parent_list": "",
+      "child_list": "",
+      "relationship": ""
+    }
+  ],
 
-    - Content Types
-    - Site Columns
-    - Managed Metadata
-    - Reusable Components
+  "permissions": [
+    {
+      "scope": "",
+      "owners": [],
+      "members": [],
+      "visitors": []
+    }
+  ],
 
-    # Relationship Model
+  "governance_controls": {
+    "versioning_enabled": [],
+    "approval_required": [],
+    "retention_labels": [],
+    "audit_requirements": []
+  },
 
-    - Lookup Relationships
-    - Hierarchical Relationships
-    - Governance Relationships
+  "search_configuration": {
+    "searchable_columns": [],
+    "refiners": [],
+    "navigation_terms": []
+  },
 
-    # Security and Governance Model
+  "integrations": {
+    "power_automate": [
+      {
+        "flow_name": "",
+        "dependent_lists": []
+      }
+    ],
 
-    - Permissions
-    - Ownership
-    - Approval Controls
-    - Versioning Requirements
-    - Retention Requirements
+    "canvas": [
+      {
+        "content_source": "",
+        "target_course": ""
+      }
+    ],
 
-    # Search and Discovery Model
+    "knowledge_repository": [
+      {
+        "source": "",
+        "classification": ""
+      }
+    ]
+  },
 
-    - Search Metadata
-    - Navigation Requirements
-    - Knowledge Retrieval Considerations
-
-    # Integration Model
-
-    - Power Automate Dependencies
-    - Parser Dependencies
-    - Knowledge Repository Dependencies
-    - Canvas Publishing Dependencies
-
-    # Required Enhancements
-
-    - New Lists
-    - New Columns
-    - New Content Types
-    - New Relationships
-    - Required Migration Activities
-
-    # Deployment Considerations
-
-    - Implementation Sequence
-    - Risk Areas
-    - Impact Considerations
-
-    Focus on implementation-ready outcomes rather
-    than theoretical SharePoint design.
-    """,
+  "deployment_plan": {
+    "existing_assets_to_reuse": [],
+    "new_lists_required": [],
+    "new_content_types_required": [],
+    "migration_requirements": []
+  }
+}
+""",
 
     context=[
         discovery_task,
@@ -174,5 +227,5 @@ sharepoint_task = Task(
 
     agent=sharepoint_agent,
 
-    output_file="outputs/sharepoint/sharepoint_architecture.md"
+    output_file="outputs/models/sharepoint_schema.json"
 )

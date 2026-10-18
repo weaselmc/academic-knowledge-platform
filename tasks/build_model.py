@@ -6,176 +6,189 @@ from tasks.discovery_platform import discovery_task
 from tasks.gap_analysis import gap_analysis_task
 from tasks.analyse_flows import flow_analysis_task
 
-
 build_model_task = Task(
     description="""
-    Build the target architecture model for the Academic Knowledge Platform.
+    Build the canonical Academic Knowledge Platform model.
 
-    Use findings from:
+    Use outputs from:
 
     - Discovery Analysis
-    - Governance Analysis
-    - Standards Analysis
     - Gap Analysis
     - Flow Analysis
+    - Governance Analysis
+    - Standards Analysis
 
-    Treat existing repository artefacts, SharePoint structures,
-    Power Automate solutions, governance assets and knowledge
-    repositories as evidence of the current implementation.
+    Repository Knowledge:
 
-    The objective is not to redesign the platform from scratch.
+    {knowledge}
+
+    Treat all repository artefacts, SharePoint structures,
+    Power Automate definitions, parser code, governance assets,
+    standards documentation and knowledge repositories as
+    evidence of the current implementation.
+
+    The objective is to create the authoritative platform
+    data model that will drive:
+
+    - SharePoint list design
+    - Power Automate design
+    - Canvas publishing
+    - Python parser validation
+    - Compliance reporting
+    - Governance workflows
+    - Document generation
+    - Knowledge retrieval
 
     Determine:
 
-    - What already exists
-    - What must be retained
-    - What must be extended
-    - What is duplicated
-    - What is missing
-    - What relationships are required
-    - What governance controls are required
-    - What knowledge structures are required
-
-    Define the target platform architecture required to support:
-
-    - Qualifications
-    - Courses
-    - Clusters
-    - Units
-    - TASs
-    - LAPs
-    - Assessment Mapping Matrices
-    - Assessment Plans
-    - Validation Activities
-    - Industry Advisory Meetings
-    - Student Feedback
-    - Employer Feedback
-    - Recommendations
-    - Continuous Improvement
-    - Change Requests
-    - Approvals
-    - Governance Records
-    - Knowledge Assets
-    - Canvas Publishing
-    - Power Automate Integrations
-    - SharePoint Structures
-    - Auditor Evidence Chains
-
-    Identify:
-
+    - existing entities
     - authoritative entities
     - source-of-truth locations
     - ownership boundaries
-    - governance responsibilities
-    - integration requirements
+    - lifecycle states
+    - governance controls
     - audit requirements
     - retention requirements
+    - metadata requirements
+    - integration requirements
     - change propagation paths
+
+    Include entities where relevant:
+
+    - Qualification
+    - AccreditedCourse
+    - Cluster
+    - Unit
+    - TAS
+    - LAP
+    - Assessment
+    - AssessmentMapping
+    - AssessmentPlan
+    - Validation
+    - IndustryMeeting
+    - IndustryFeedback
+    - StudentFeedback
+    - EmployerFeedback
+    - Recommendation
+    - ImprovementAction
+    - ChangeRequest
+    - Approval
+    - GovernanceRecord
+    - LearningResource
+    - CanvasCourse
+    - AutomationFlow
+    - SharePointList
 
     Ensure:
 
     - information is captured once
-    - information is reused where possible
-    - duplication is minimised
+    - duplication is minimized
     - relationships are explicit
-    - governance requirements are supported
-    - solutions are auditable
-    - solutions are version controlled
+    - ownership is defined
+    - governance is auditable
+    - historical reconstruction is possible
+    - automation dependencies are traceable
 
-    No information should be physically deleted.
+    Produce ONLY valid JSON.
 
-    All platform information should support:
-
-    - traceability
-    - historical reconstruction
-    - auditability
-    - governance
-    - compliance
-    - automation
-    - knowledge retrieval
-
-    Produce an architecture that supports long-term platform
-    evolution while preserving existing working solutions.
+    No markdown.
+    No narrative report.
+    No explanations.
     """,
 
     expected_output="""
-    A comprehensive Academic Knowledge Platform
-    architecture model containing:
+{
+  "platform_domains": [
+    {
+      "name": "",
+      "description": ""
+    }
+  ],
 
-    # Current State Summary
+  "source_systems": [
+    {
+      "name": "",
+      "authority_level": "",
+      "owned_entities": []
+    }
+  ],
 
-    - Existing Platform Capabilities
-    - Existing Entities
-    - Existing Relationships
+  "entities": [
+    {
+      "name": "",
+      "description": "",
+      "owner": "",
+      "authority_level": "",
+      "source_of_truth": "",
+      "retention_requirement": "",
+      "lifecycle_states": [],
+      "fields": [
+        {
+          "name": "",
+          "type": "",
+          "required": true,
+          "unique": false,
+          "description": ""
+        }
+      ]
+    }
+  ],
 
-    # Target Architecture
+  "relationships": [
+    {
+      "parent_entity": "",
+      "child_entity": "",
+      "relationship_type": "",
+      "cardinality": ""
+    }
+  ],
 
-    - Platform Domains
-    - Major Information Areas
-    - Source-of-Truth Systems
+  "governance": {
+    "ownership_roles": [],
+    "approval_roles": [],
+    "audit_roles": [],
+    "compliance_requirements": []
+  },
 
-    # Canonical Entity Model
+  "metadata_requirements": [
+    {
+      "entity": "",
+      "field": "",
+      "purpose": ""
+    }
+  ],
 
-    For each entity define:
+  "integrations": [
+    {
+      "system": "",
+      "integration_type": "",
+      "entities": [],
+      "purpose": ""
+    }
+  ],
 
-    - Purpose
-    - Ownership
-    - Authority Level
-    - Related Entities
-    - Lifecycle
+  "knowledge_model": {
+    "knowledge_objects": [],
+    "taxonomies": [],
+    "retrieval_requirements": []
+  },
 
-    # Relationship Model
+  "change_propagation": [
+    {
+      "source_entity": "",
+      "target_entity": "",
+      "impact_description": ""
+    }
+  ],
 
-    Document:
-
-    - Parent-child relationships
-    - Reference relationships
-    - Governance relationships
-    - Knowledge relationships
-
-    # Governance Model
-
-    Define:
-
-    - Ownership
-    - Approval Responsibilities
-    - Audit Responsibilities
-    - Versioning Requirements
-
-    # Knowledge Model
-
-    Define:
-
-    - Knowledge Objects
-    - Taxonomies
-    - Metadata Requirements
-    - Retrieval Requirements
-
-    # Change Propagation Model
-
-    Define:
-
-    - Upstream Dependencies
-    - Downstream Dependencies
-    - Impact Chains
-
-    # Integration Model
-
-    Define:
-
-    - SharePoint Integration
-    - Power Automate Integration
-    - Canvas Integration
-    - Parser Integration
-
-    # Architectural Decisions
-
-    Include key architectural principles,
-    constraints and assumptions.
-
-    Focus on implementation-ready architecture
-    rather than theoretical design.
-    """,
+  "audit_requirements": [
+    {
+      "entity": "",
+      "requirement": ""
+    }
+  ]
+}
+""",
 
     context=[
         discovery_task,
@@ -185,5 +198,5 @@ build_model_task = Task(
 
     agent=architect,
 
-    output_file="outputs/architecture/platform_architecture.md"
+    output_file="outputs/models/platform_model.json"
 )

@@ -2,261 +2,157 @@ from crewai import Task
 
 from agents.discovery import discovery_agent
 
+
 discovery_task = Task(
     description="""
-    Analyse the supplied repository and all available
-    knowledge artefacts.
+    Analyse the repository and extract the existing
+    platform schema.
 
     Repository Knowledge:
 
     {knowledge}
 
-    Treat the repository as evidence of the current
-    Academic Knowledge Platform implementation.
-    
-    Do not include examples, sample rows,
-    unit names, qualification names or
-    instance data unless required as evidence.
+    OBJECTIVE
 
-    The objective is to discover schema,
-    relationships and metadata definitions.
+    Discover the current information model used by
+    the Academic Knowledge Platform.
+
+    CRITICAL
+
+    Model ENTITY TYPES only.
+
+    Do not model:
+
+    - records
+    - sample rows
+    - qualification instances
+    - unit instances
+    - assessment instances
+    - TAS instances
+    - LAP instances
+
+    Ignore example data.
+
+    Focus on metadata and structure.
 
     Analyse:
 
-    - Parser outputs
-    - SharePoint structures
-    - Lists
-    - Libraries
-    - Metadata
-    - Content Types
-    - Power Automate flows
-    - Azure Function integrations
-    - Python services
-    - Knowledge repository assets
-    - TAS artefacts
-    - LAP artefacts
-    - Assessment artefacts
-    - Validation artefacts
-    - Governance artefacts
-    - Continuous Improvement artefacts
-    - Industry Engagement artefacts
-    - Canvas artefacts
+    - SharePoint Lists
+    - SharePoint Libraries
+    - SharePoint Content Types
+    - SharePoint Columns
+    - Power Automate Definitions
+    - Azure Functions
+    - Python Parsers
+    - Knowledge Repository Assets
+    - TAS Artefacts
+    - LAP Artefacts
+    - Assessment Artefacts
+    - Validation Artefacts
+    - Governance Artefacts
+    - Industry Engagement Artefacts
 
     Discover:
 
-    - entities
+    - entity types
+    - fields
+    - field types
     - relationships
-    - business rules
-    - workflows
-    - integrations
-    - governance controls
+    - source systems
     - authority sources
-    - knowledge assets
-    - taxonomies
     - metadata structures
-    - business capabilities
 
-    Determine:
+    For each entity identify:
 
-    - what exists
-    - where it exists
-    - who owns it
-    - what consumes it
-    - what depends upon it
-    - what systems it integrates with
-
-    Identify:
-
-    - authoritative systems
-    - source-of-truth locations
-    - duplicated information
-    - conflicting information
-    - upstream dependencies
-    - downstream dependencies
-    - change propagation chains
-
-    For every significant object identify:
-
-    - name
-    - type
+    - entity name
+    - description
     - source system
     - source artefact
-    - ownership
+    - owner
     - authority level
-    - consuming systems
 
-    Classify findings as:
+    For each field identify:
 
-    - Confirmed
-    - Strong Evidence
-    - Inferred
-    - Unknown
+    - field name
+    - field type
+    - required status
 
-    Focus exclusively on reverse engineering and
-    documenting the current implementation.
+    For each relationship identify:
 
-    Do not redesign the solution.
+    - source entity
+    - target entity
+    - relationship type
 
-    Produce ONLY valid JSON.
+    Produce machine-readable schema artefacts.
+
+    Output ONLY valid JSON.
 
     No markdown.
-    No narrative report.
+    No reports.
     No recommendations.
+    No commentary.
     """,
 
     expected_output="""
 {
-  "platform_capabilities": [
-    {
-      "name": "",
-      "description": "",
-      "confidence": "Confirmed|Strong Evidence|Inferred|Unknown"
-    }
-  ],
-
-  "systems": [
+  "source_systems": [
     {
       "name": "",
       "type": "",
-      "purpose": "",
-      "owner": "",
-      "authority_level": "",
-      "confidence": "Confirmed|Strong Evidence|Inferred|Unknown"
+      "authority_level": ""
     }
   ],
 
   "entities": [
     {
       "name": "",
-      "type": "",
-      "purpose": "",
-      "owner": "",
-      "authority_level": "",
+      "description": "",
+
       "source_system": "",
-      "source_artefact": "",
-      "consuming_systems": [],
-      "confidence": "Confirmed|Strong Evidence|Inferred|Unknown"
+
+      "source_artefacts": [],
+
+      "owner": "",
+
+      "authority_level": "",
+
+      "fields": [
+        {
+          "name": "",
+          "type": "",
+          "required": true
+        }
+      ]
     }
   ],
 
   "relationships": [
     {
       "source_entity": "",
+
       "target_entity": "",
+
       "relationship_type": "",
-      "confidence": "Confirmed|Strong Evidence|Inferred|Unknown"
+
+      "cardinality": ""
     }
   ],
 
-  "business_rules": [
-    {
-      "rule": "",
-      "source": "",
-      "confidence": "Confirmed|Strong Evidence|Inferred|Unknown"
-    }
-  ],
-
-  "workflows": [
-    {
-      "name": "",
-      "workflow_type": "Business|Automation|Knowledge",
-      "steps": [],
-      "systems": [],
-      "confidence": "Confirmed|Strong Evidence|Inferred|Unknown"
-    }
-  ],
-
-  "integrations": [
-    {
-      "source_system": "",
-      "target_system": "",
-      "integration_type": "",
-      "artefacts": [],
-      "confidence": "Confirmed|Strong Evidence|Inferred|Unknown"
-    }
-  ],
-
-  "authority_model": {
-    "source_of_truth_systems": [
-      {
-        "entity": "",
-        "system": ""
-      }
-    ],
-
-    "derived_systems": [],
-
-    "consumer_systems": []
-  },
-
-  "governance_controls": [
-    {
-      "control": "",
-      "owner": "",
-      "evidence_source": "",
-      "confidence": "Confirmed|Strong Evidence|Inferred|Unknown"
-    }
-  ],
-
-  "knowledge_assets": [
-    {
-      "name": "",
-      "asset_type": "",
-      "classification": "",
-      "metadata": []
-    }
-  ],
-
-  "taxonomies": [
-    {
-      "name": "",
-      "terms": []
-    }
-  ],
-
-  "metadata_structures": [
+  "metadata": [
     {
       "entity": "",
-      "fields": []
+
+      "field": "",
+
+      "purpose": ""
     }
   ],
 
-  "dependencies": {
-    "upstream": [
-      {
-        "entity": "",
-        "depends_on": ""
-      }
-    ],
-
-    "downstream": [
-      {
-        "entity": "",
-        "consumed_by": ""
-      }
-    ],
-
-    "change_propagation": [
-      {
-        "source_entity": "",
-        "affected_entities": [],
-        "impact": ""
-      }
-    ]
-  },
-
-  "evidence": [
+  "document_types": [
     {
-      "artefact": "",
-      "finding": "",
-      "classification": "Confirmed|Strong Evidence|Inferred|Unknown"
-    }
-  ],
+      "name": "",
 
-  "unknowns": [
-    {
-      "area": "",
-      "reason": ""
+      "related_entity": ""
     }
   ]
 }
@@ -264,5 +160,5 @@ discovery_task = Task(
 
     agent=discovery_agent,
 
-    output_file="outputs/models/discovery_inventory.json"
+    output_file="outputs/schema/discovered_schema.json"
 )

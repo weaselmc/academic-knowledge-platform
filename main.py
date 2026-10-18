@@ -8,16 +8,14 @@ from repository import KnowledgeRepository
 
 
 def create_output_folders():
-    """Create standard output structure."""
+    """Create output folder structure."""
 
     folders = [
         "outputs",
-        "outputs/platform",
-        "outputs/governance",
-        "outputs/architecture",
+        "outputs/schema",
         "outputs/sharepoint",
-        "outputs/implementation",
-        "outputs/review",
+        "outputs/parser",
+        "outputs/generated",
         "outputs/logs"
     ]
 
@@ -30,51 +28,70 @@ def main():
     create_output_folders()
 
     print("=" * 80)
-    print("Academic Knowledge Platform")
-    print("Crew Execution Started")
+    print("Academic Platform Schema Generator")
     print("=" * 80)
+    print()
 
     repo = KnowledgeRepository()
 
     knowledge = repo.load()
 
-    print("Knowledge Repository Loaded")
+    print("Knowledge loaded")
     print()
 
     result = crew.kickoff(
         inputs={
             "knowledge": knowledge,
-            "project": """
-            Build an Academic Knowledge Platform that:
 
-            - Extracts information from TAS documents
-            - Extracts information from LAP documents
-            - Extracts information from Assessment Plans
-            - Extracts information from Mapping Matrices
-            - Extracts information from Validation Records
-            - Extracts information from Industry Consultation
-            - Extracts information from Student Feedback
-            - Extracts information from Registration Standards 2025
-            - Extracts information from TAC Guidance
-            - Extracts information from TIWA Policies
-            - Extracts information from Training Package Information
+            "objective": """
+            Reverse engineer the existing Academic Platform.
 
-            The platform must:
+            Produce machine-readable schema artefacts.
 
-            - Maintain a central source of truth
-            - Support governance requirements
-            - Support compliance requirements
-            - Support auditability
-            - Support version control
-            - Support historical reconstruction
-            - Support SharePoint Online
-            - Support Power Automate
-            - Support Knowledge Repository retrieval
-            - Support Canvas publication
-            - Support future CrewAI agents
+            Model entity TYPES only.
 
-            Information should be normalised,
-            reusable and stored once wherever possible.
+            Do not model sample records.
+
+            Required outputs:
+
+            1. discovered_schema.json
+            2. compliance_schema.json
+            3. integration_schema.json
+            4. canonical_schema.json
+            5. sharepoint_schema.json
+            6. parser_mapping.json
+
+            The canonical schema must define:
+
+            - entities
+            - fields
+            - data types
+            - relationships
+            - authority sources
+            - ownership
+            - metadata
+
+            The SharePoint schema must define:
+
+            - lists
+            - columns
+            - lookups
+            - content types
+
+            The parser mapping must define:
+
+            - source systems
+            - required fields
+            - validation requirements
+            - relationship mappings
+
+            All outputs must be valid JSON.
+
+            Outputs must be implementation-ready.
+
+            No reports.
+            No recommendations.
+            No markdown unless explicitly requested.
             """
         }
     )
@@ -83,7 +100,8 @@ def main():
 
     summary_file = (
         Path("outputs")
-        / f"crew_summary_{timestamp}.md"
+        / "logs"
+        / f"execution_summary_{timestamp}.txt"
     )
 
     summary_file.write_text(
@@ -93,7 +111,7 @@ def main():
 
     print()
     print("=" * 80)
-    print("Crew Execution Complete")
+    print("Schema Generation Complete")
     print("=" * 80)
     print()
     print(f"Summary: {summary_file}")

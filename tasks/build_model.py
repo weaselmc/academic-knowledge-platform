@@ -3,138 +3,152 @@ from crewai import Task
 from agents.architect import architect
 
 from tasks.discovery_platform import discovery_task
-from tasks.gap_analysis import gap_analysis_task
+from tasks.compliance import compliance_task
 from tasks.analyse_flows import flow_analysis_task
+
 
 build_model_task = Task(
     description="""
-    Build the canonical Academic Knowledge Platform model.
-
-    Use outputs from:
-
-    - Discovery Analysis
-    - Gap Analysis
-    - Flow Analysis
-    - Governance Analysis
-    - Standards Analysis
+    Build the Canonical Academic Knowledge Platform Schema.
 
     Repository Knowledge:
 
     {knowledge}
 
-    Treat all repository artefacts, SharePoint structures,
-    Power Automate definitions, parser code, governance assets,
-    standards documentation and knowledge repositories as
-    evidence of the current implementation.
-    
-    Do not include examples, sample rows,
-    unit names, qualification names or
-    instance data unless required as evidence.
+    Inputs:
 
-    The objective is to discover schema,
-    relationships and metadata definitions.
+    - discovered_schema.json
+    - compliance_schema.json
+    - integration_schema.json
 
-    The objective is to create the authoritative platform
-    data model that will drive:
+    OBJECTIVE
 
-    - SharePoint list design
-    - Power Automate design
-    - Canvas publishing
-    - Python parser validation
-    - Compliance reporting
-    - Governance workflows
-    - Document generation
-    - Knowledge retrieval
+    Generate the authoritative schema for the
+    Academic Knowledge Platform.
 
-    Determine:
+    This schema will become the source of truth
+    for all downstream generators.
 
-    - existing entities
-    - authoritative entities
-    - source-of-truth locations
-    - ownership boundaries
-    - lifecycle states
-    - governance controls
+    CRITICAL
+
+    Model ENTITY TYPES.
+
+    Do not model:
+
+    - records
+    - sample data
+    - qualification instances
+    - unit instances
+    - assessment instances
+
+    Ignore example values.
+
+    The output must describe platform structure,
+    not platform content.
+
+    MERGE
+
+    Discovery provides:
+
+    - entities
+    - fields
+    - relationships
+    - metadata
+
+    Compliance provides:
+
+    - mandatory entities
+    - mandatory fields
     - audit requirements
-    - retention requirements
-    - metadata requirements
-    - integration requirements
-    - change propagation paths
+    - governance requirements
 
-    Include entities where relevant:
+    Integration provides:
 
-    - Qualification
-    - AccreditedCourse
-    - Cluster
-    - Unit
-    - TAS
-    - LAP
-    - Assessment
-    - AssessmentMapping
-    - AssessmentPlan
-    - Validation
-    - IndustryMeeting
-    - IndustryFeedback
-    - StudentFeedback
-    - EmployerFeedback
-    - Recommendation
-    - ImprovementAction
-    - ChangeRequest
-    - Approval
-    - GovernanceRecord
-    - LearningResource
-    - CanvasCourse
-    - AutomationFlow
-    - SharePointList
+    - system relationships
+    - entity flows
+    - source systems
+    - destination systems
 
-    Ensure:
+    GENERATE
 
-    - information is captured once
-    - duplication is minimized
-    - relationships are explicit
-    - ownership is defined
-    - governance is auditable
-    - historical reconstruction is possible
-    - automation dependencies are traceable
+    For each entity define:
+
+    - schema name
+    - description
+    - source of truth
+    - owner
+    - primary key
+    - fields
+    - relationships
+    - audit metadata
+
+    For each field define:
+
+    - field name
+    - type
+    - required
+    - unique
+    - default value
+    - description
+
+    For each relationship define:
+
+    - source entity
+    - target entity
+    - cardinality
+    - relationship type
+
+    OUTPUT REQUIREMENTS
+
+    The schema must be suitable for:
+
+    - SharePoint list generation
+    - Content type generation
+    - Power Automate generation
+    - Parser validation
+    - Canvas publishing
+    - Governance controls
+    - Knowledge Repository storage
 
     Produce ONLY valid JSON.
 
-    No markdown.
-    No narrative report.
-    No explanations.
+    Do not output markdown.
+
+    Do not output reports.
+
+    Do not output recommendations.
+
+    Do not output explanations.
     """,
 
     expected_output="""
 {
-  "platform_domains": [
-    {
-      "name": "",
-      "description": ""
-    }
-  ],
-
-  "source_systems": [
-    {
-      "name": "",
-      "authority_level": "",
-      "owned_entities": []
-    }
-  ],
+  "schema_version": "",
 
   "entities": [
     {
       "name": "",
       "description": "",
+
       "owner": "",
-      "authority_level": "",
+
       "source_of_truth": "",
-      "retention_requirement": "",
-      "lifecycle_states": [],
+
+      "primary_key": "",
+
+      "audit_enabled": true,
+
       "fields": [
         {
           "name": "",
-          "type": "",
+          "type": "string|number|boolean|date|datetime|lookup|choice|person",
+
           "required": true,
+
           "unique": false,
+
+          "default_value": null,
+
           "description": ""
         }
       ]
@@ -143,55 +157,46 @@ build_model_task = Task(
 
   "relationships": [
     {
-      "parent_entity": "",
-      "child_entity": "",
-      "relationship_type": "",
-      "cardinality": ""
-    }
-  ],
-
-  "governance": {
-    "ownership_roles": [],
-    "approval_roles": [],
-    "audit_roles": [],
-    "compliance_requirements": []
-  },
-
-  "metadata_requirements": [
-    {
-      "entity": "",
-      "field": "",
-      "purpose": ""
-    }
-  ],
-
-  "integrations": [
-    {
-      "system": "",
-      "integration_type": "",
-      "entities": [],
-      "purpose": ""
-    }
-  ],
-
-  "knowledge_model": {
-    "knowledge_objects": [],
-    "taxonomies": [],
-    "retrieval_requirements": []
-  },
-
-  "change_propagation": [
-    {
       "source_entity": "",
+
       "target_entity": "",
-      "impact_description": ""
+
+      "relationship_type":
+        "lookup|composition|aggregation|reference",
+
+      "cardinality":
+        "1:1|1:M|M:M"
     }
   ],
 
-  "audit_requirements": [
+  "source_systems": [
     {
-      "entity": "",
-      "requirement": ""
+      "name": "",
+
+      "authority_level": "",
+
+      "entities": []
+    }
+  ],
+
+  "audit_fields": [
+    {
+      "name": "",
+      "type": ""
+    }
+  ],
+
+  "ownership_fields": [
+    {
+      "name": "",
+      "type": ""
+    }
+  ],
+
+  "retention_fields": [
+    {
+      "name": "",
+      "type": ""
     }
   ]
 }
@@ -199,11 +204,11 @@ build_model_task = Task(
 
     context=[
         discovery_task,
-        gap_analysis_task,
+        compliance_task,
         flow_analysis_task
     ],
 
     agent=architect,
 
-    output_file="outputs/models/platform_model.json"
+    output_file="outputs/schema/canonical_schema.json"
 )

@@ -3,7 +3,7 @@ from agents.flow_analyst import flow_agent
 
 flow_analysis_task = Task(
     description="""
-    Analyse the supplied Power Automate solution artefacts:
+    Analyse the supplied Power Automate artefacts:
 
     - definition.json
     - connectionsMap.json
@@ -13,97 +13,81 @@ flow_analysis_task = Task(
 
     {knowledge}
 
-    Reverse engineer the existing automation implementation.
+    OBJECTIVE
 
-    Treat the supplied artefacts as the authoritative
-    source of evidence.
+    Build an integration schema model which describes
+    how information moves between systems.
 
-    Model entity TYPES, not records.
+    CRITICAL
 
-    Do not include examples, sample rows,
-    unit names, qualification names or
-    instance data unless required as evidence.
+    Model ENTITY TYPES, not records.
 
-    The objective is to discover schema,
-    relationships and metadata definitions.
+    Ignore:
 
-    Identify and extract:
+    - sample rows
+    - qualification instances
+    - unit instances
+    - example data
 
-    - flows
+    Focus on:
+
+    - systems
+    - entities
+    - relationships
+    - integrations
+    - data movement
+    - transformation points
+
+    Treat supplied artefacts as the authoritative
+    source of integration evidence.
+
+    Extract:
+
+    - source systems
+    - destination systems
+    - connectors
     - triggers
     - actions
-    - connectors
-    - SharePoint dependencies
-    - Azure Function dependencies
-    - external integrations
-    - business rules
-    - entity relationships
-    - source systems
-    - target systems
-    - ownership boundaries
-    - lifecycle events
-    - governance controls
+    - entities referenced
+    - entities created
+    - entities updated
+    - entities deleted
+    - transformation points
+    - synchronization points
+    - publishing points
 
-    Determine:
+    For every integration identify:
 
-    - how information enters the platform
-    - how information moves through the platform
-    - how information is transformed
-    - how information is synchronized
-    - how information is published
-    - which systems consume information
-    - which systems produce information
-    - where duplication exists
-    - where governance controls exist
-    - where governance controls are missing
+    - source system
+    - target system
+    - entity
+    - operation
+    - dependency
 
-    Identify change propagation paths.
+    For every entity identify:
 
-    Example:
+    - system of record
+    - producing systems
+    - consuming systems
 
-    Qualification
-      -> Cluster
-        -> Unit
-          -> TAS
-            -> LAP
-              -> Canvas
+    Do not:
 
-    Extract automation metadata and relationships.
+    - produce reports
+    - assess risks
+    - recommend changes
+    - redesign solutions
 
-    Do not redesign the solution.
-
-    Do not produce a narrative report.
+    Produce machine-readable schema artefacts only.
 
     Output valid JSON only.
-
-    No markdown.
-    No explanations.
-    No commentary.
     """,
 
     expected_output="""
 {
-  "flows": [
-    {
-      "name": "",
-      "status": "",
-      "trigger": {
-        "type": "",
-        "source": ""
-      },
-      "actions": [
-        {
-          "name": "",
-          "type": "",
-          "connector": ""
-        }
-      ]
-    }
-  ],
-
   "systems": [
     {
       "name": "",
+      "type": "",
       "role": "source|target|both"
     }
   ],
@@ -111,8 +95,37 @@ flow_analysis_task = Task(
   "entities": [
     {
       "name": "",
-      "owner": "",
-      "source_of_truth": ""
+      "source_of_truth": "",
+      "producing_systems": [],
+      "consuming_systems": []
+    }
+  ],
+
+  "integrations": [
+    {
+      "name": "",
+      "source_system": "",
+      "target_system": "",
+      "connector": "",
+      "trigger": "",
+      "operation": "create|update|delete|read"
+    }
+  ],
+
+  "entity_flows": [
+    {
+      "entity": "",
+      "source_system": "",
+      "target_system": "",
+      "operation": ""
+    }
+  ],
+
+  "transformations": [
+    {
+      "entity": "",
+      "source_structure": "",
+      "target_structure": ""
     }
   ],
 
@@ -120,77 +133,22 @@ flow_analysis_task = Task(
     {
       "source_entity": "",
       "target_entity": "",
-      "relationship_type": ""
+      "relationship_type": "",
+      "cardinality": ""
     }
   ],
 
-  "transformations": [
+  "dependencies": [
     {
-      "flow": "",
-      "source": "",
-      "target": "",
-      "transformation": ""
+      "system": "",
+      "depends_on": "",
+      "reason": ""
     }
-  ],
-
-  "business_rules": [
-    {
-      "rule": "",
-      "classification": "Confirmed|Strong Evidence|Inferred|Unknown",
-      "evidence": ""
-    }
-  ],
-
-  "dependencies": {
-    "sharepoint": [],
-    "azure_functions": [],
-    "canvas": [],
-    "external_integrations": []
-  },
-
-  "data_flows": [
-    {
-      "source_system": "",
-      "target_system": "",
-      "flow_name": "",
-      "payload": ""
-    }
-  ],
-
-  "change_propagation": [
-    {
-      "source_entity": "",
-      "affected_entity": "",
-      "impact": ""
-    }
-  ],
-
-  "governance": {
-    "ownership_boundaries": [],
-    "existing_controls": [],
-    "missing_controls": []
-  },
-
-  "risks": [
-    {
-      "risk": "",
-      "severity": "Low|Medium|High",
-      "description": ""
-    }
-  ],
-
-  "technical_debt": [
-    {
-      "issue": "",
-      "impact": ""
-    }
-  ],
-
-  "unknowns": []
+  ]
 }
 """,
 
     agent=flow_agent,
 
-    output_file="outputs/models/automation_model.json"
+    output_file="outputs/schema/integration_schema.json"
 )

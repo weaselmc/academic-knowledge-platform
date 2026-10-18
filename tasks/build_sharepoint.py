@@ -2,123 +2,118 @@ from crewai import Task
 
 from agents.sharepoint import sharepoint_agent
 
-from tasks.discovery_platform import discovery_task
 from tasks.build_model import build_model_task
+
 
 sharepoint_task = Task(
     description="""
-    Build the canonical SharePoint schema for the
-    Academic Knowledge Platform.
+    Generate SharePoint Online deployment schema.
 
     Repository Knowledge:
 
     {knowledge}
 
-    Use outputs from:
+    Inputs:
 
-    - Discovery Analysis
-    - Platform Model
+    - canonical_schema.json
 
-    Treat existing SharePoint assets as evidence of
-    the current implementation.
-    
-    Do not include examples, sample rows,
-    unit names, qualification names or
-    instance data unless required as evidence.
+    OBJECTIVE
 
-    The objective is to discover schema,
-    relationships and metadata definitions.
+    Convert the canonical platform schema into
+    SharePoint implementation structures.
 
-    Analyse and identify:
+    The canonical schema is the source of truth.
 
-    - existing lists
-    - existing libraries
-    - existing content types
-    - existing site columns
-    - existing metadata
-    - existing relationships
-    - existing permissions
-    - existing governance controls
+    Do not perform:
 
-    Determine:
+    - governance analysis
+    - compliance analysis
+    - architecture analysis
+    - discovery analysis
 
-    - authoritative SharePoint locations
-    - ownership boundaries
-    - duplicate structures
-    - reusable components
-    - required enhancements
-    - required governance controls
-    - required retention controls
-    - required security controls
+    Do not create new entities.
 
-    Build the SharePoint information architecture
-    required to support:
+    Do not redesign the platform.
 
-    - Qualifications
-    - Accredited Courses
-    - Clusters
-    - Units
-    - TASs
-    - LAPs
-    - Assessments
-    - Assessment Mapping Matrices
-    - Assessment Plans
-    - Validation Activities
+    Use the entities and relationships from the
+    canonical schema exactly as defined.
+
+    Generate SharePoint structures required for:
+
+    - Academic Master Data
+    - Qualification Management
+    - Course Management
+    - Unit Management
+    - TAS Management
+    - LAP Management
+    - Assessment Management
+    - Validation Management
     - Industry Engagement
-    - Student Feedback
-    - Employer Feedback
     - Continuous Improvement
-    - Recommendations
-    - Approvals
     - Governance Records
-    - Change Requests
-    - Learning Resources
-    - Knowledge Assets
-    - Canvas Publishing
-    - Power Automate Integration
-    - Audit Evidence
 
-    Preserve existing structures where possible.
+    For every entity generate:
 
-    Extend rather than replace existing solutions
-    unless duplication or governance concerns
-    require redesign.
+    - list name
+    - internal name
+    - columns
+    - content type
+    - indexes
 
-    Produce only valid JSON.
+    For every relationship generate:
+
+    - lookup fields
+    - relationship behaviour
+    - referential integrity requirements
+
+    For document entities generate:
+
+    - document libraries
+    - associated content types
+    - metadata columns
+
+    Pay particular attention to:
+
+    - Portfolio ownership
+    - Team ownership
+    - Qualification delivery ownership
+
+    The platform should support:
+
+    Qualification
+        -> QualificationDelivery
+            -> TAS
+                -> LAP
+                    -> Assessment
+
+    Generate deployment-ready SharePoint schema.
+
+    Output ONLY valid JSON.
 
     No markdown.
-    No narrative report.
+    No reports.
     No explanations.
+    No recommendations.
     """,
 
     expected_output="""
 {
-  "site_architecture": {
-    "site_name": "",
-    "domains": [
-      {
-        "name": "",
-        "description": ""
-      }
-    ]
-  },
+  "solution_name": "",
 
   "lists": [
     {
       "name": "",
-      "purpose": "",
-      "owner": "",
-      "authority_level": "",
       "entity": "",
+      "description": "",
 
       "columns": [
         {
-          "name": "",
+          "internal_name": "",
+          "display_name": "",
           "type": "",
           "required": true,
           "indexed": false,
-          "unique": false,
-          "description": ""
+          "unique": false
         }
       ]
     }
@@ -127,24 +122,34 @@ sharepoint_task = Task(
   "document_libraries": [
     {
       "name": "",
-      "purpose": "",
-      "content_types": []
+      "entity": "",
+      "content_type": ""
     }
   ],
 
   "content_types": [
     {
       "name": "",
-      "parent_content_type": "",
-      "site_columns": []
+      "parent": "",
+      "columns": []
     }
   ],
 
   "site_columns": [
     {
-      "name": "",
-      "type": "",
-      "required": true
+      "internal_name": "",
+      "display_name": "",
+      "type": ""
+    }
+  ],
+
+  "lookup_relationships": [
+    {
+      "source_list": "",
+      "source_column": "",
+      "target_list": "",
+      "target_column": "",
+      "relationship_type": "1:1|1:M|M:M"
     }
   ],
 
@@ -155,84 +160,29 @@ sharepoint_task = Task(
     }
   ],
 
-  "lookup_relationships": [
+  "permission_model": [
     {
-      "source_list": "",
-      "source_column": "",
-      "target_list": "",
-      "target_column": "",
-      "relationship_type": ""
+      "entity": "",
+      "owner_group": "",
+      "contributor_group": "",
+      "reader_group": ""
     }
   ],
 
-  "hierarchical_relationships": [
-    {
-      "parent_list": "",
-      "child_list": "",
-      "relationship": ""
-    }
-  ],
-
-  "permissions": [
-    {
-      "scope": "",
-      "owners": [],
-      "members": [],
-      "visitors": []
-    }
-  ],
-
-  "governance_controls": {
-    "versioning_enabled": [],
-    "approval_required": [],
-    "retention_labels": [],
-    "audit_requirements": []
-  },
-
-  "search_configuration": {
-    "searchable_columns": [],
-    "refiners": [],
-    "navigation_terms": []
-  },
-
-  "integrations": {
-    "power_automate": [
-      {
-        "flow_name": "",
-        "dependent_lists": []
-      }
-    ],
-
-    "canvas": [
-      {
-        "content_source": "",
-        "target_course": ""
-      }
-    ],
-
-    "knowledge_repository": [
-      {
-        "source": "",
-        "classification": ""
-      }
-    ]
-  },
-
-  "deployment_plan": {
-    "existing_assets_to_reuse": [],
-    "new_lists_required": [],
-    "new_content_types_required": [],
-    "migration_requirements": []
-  }
+  "deployment_order": [
+    "site_columns",
+    "content_types",
+    "lists",
+    "lookup_relationships"
+  ]
 }
 """,
 
     context=[
-        discovery_task,
         build_model_task
     ],
 
     agent=sharepoint_agent,
 
-    output_file="outputs/models/sharepoint_schema.json"
+    output_file="outputs/sharepoint/sharepoint_schema.json"
 )

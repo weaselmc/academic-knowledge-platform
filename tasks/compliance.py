@@ -7,7 +7,7 @@ from tasks.discovery_platform import discovery_task
 
 compliance_task = Task(
     description="""
-    Generate compliance and governance schema requirements.
+    Generate compliance schema requirements.
 
     Repository Knowledge:
 
@@ -19,87 +19,63 @@ compliance_task = Task(
 
     OBJECTIVE
 
-    Transform governance and compliance requirements
-    into machine-readable schema requirements.
+    Identify additional schema requirements that must
+    exist to satisfy compliance, governance,
+    auditability and evidence requirements.
 
-    The output will be merged into the
-    canonical platform schema.
+    The output will be merged into:
+
+    - canonical_schema.json
 
     CRITICAL
 
     Model ENTITY TYPES only.
 
-    Do not model:
+    Never model:
 
     - records
-    - examples
     - sample rows
+    - example values
     - qualification instances
     - unit instances
     - assessment instances
 
-    Ignore data values.
+    Ignore operational data.
 
-    Focus on:
+    Focus only on:
 
     - entities
     - fields
     - relationships
-    - ownership
-    - approvals
+    - metadata
     - auditability
-    - retention
+    - ownership
     - evidence
 
-    Evaluate requirements derived from:
-
-    - Standards for RTOs 2025
-    - Outcome Standards
-    - Compliance Standards
-    - TAC Guidance
-    - TIWA Requirements
-    - Credential Policies
-    - Training Package Requirements
+    Use repository artefacts as evidence.
 
     Determine:
 
     - mandatory entities
     - mandatory fields
     - mandatory relationships
-    - ownership requirements
-    - audit requirements
-    - approval requirements
-    - retention requirements
-    - evidence requirements
+    - audit metadata
+    - ownership metadata
+    - approval metadata
+    - retention metadata
+    - evidence metadata
 
-    Identify schema elements required to support:
+    Do not analyse gaps.
 
-    - Qualifications
-    - Courses
-    - Units
-    - TAS
-    - LAP
-    - Assessments
-    - Validation
-    - Industry Engagement
-    - Student Feedback
-    - Employer Feedback
-    - Continuous Improvement
-    - Governance
-    - Change Requests
-    - Approvals
+    Do not assess maturity.
+
+    Do not write recommendations.
+
+    Do not write reports.
 
     Generate schema requirements only.
 
-    Do not generate reports.
-
-    Do not generate recommendations.
-
-    Produce ONLY valid JSON.
-
-    No markdown.
-    No commentary.
-    No explanations.
+    Output valid JSON only.
     """,
 
     context=[
@@ -111,16 +87,6 @@ compliance_task = Task(
   "required_entities": [
     {
       "name": "",
-      "purpose": "",
-      "classification": "mandatory|required|recommended|optional"
-    }
-  ],
-
-  "required_relationships": [
-    {
-      "source_entity": "",
-      "target_entity": "",
-      "relationship_type": "",
       "classification": "mandatory|required|recommended|optional"
     }
   ],
@@ -130,55 +96,51 @@ compliance_task = Task(
       "entity": "",
       "field_name": "",
       "field_type": "",
-      "required": true,
-      "classification": "mandatory|required|recommended|optional"
+      "required": true
     }
   ],
 
-  "audit_fields": [
+  "required_relationships": [
+    {
+      "source_entity": "",
+      "target_entity": "",
+      "relationship_type": ""
+    }
+  ],
+
+  "audit_metadata": [
     {
       "field_name": "",
-      "field_type": "",
-      "purpose": ""
+      "field_type": ""
     }
   ],
 
-  "ownership_fields": [
+  "ownership_metadata": [
     {
       "field_name": "",
-      "field_type": "",
-      "purpose": ""
+      "field_type": ""
     }
   ],
 
-  "approval_fields": [
+  "approval_metadata": [
     {
       "field_name": "",
-      "field_type": "",
-      "purpose": ""
+      "field_type": ""
     }
   ],
 
-  "retention_fields": [
+  "retention_metadata": [
     {
       "field_name": "",
-      "field_type": "",
-      "purpose": ""
+      "field_type": ""
     }
   ],
 
-  "evidence_requirements": [
+  "evidence_metadata": [
     {
       "entity": "",
-      "evidence_type": "",
-      "required_metadata": []
-    }
-  ],
-
-  "governance_requirements": [
-    {
-      "entity": "",
-      "required_controls": []
+      "field_name": "",
+      "field_type": ""
     }
   ]
 }

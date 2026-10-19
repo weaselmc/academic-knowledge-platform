@@ -7,15 +7,13 @@ from agents.governance import governance_agent
 from agents.flow_analyst import flow_agent
 from agents.architect import architect
 from agents.sharepoint import sharepoint_agent
-from agents.python_dev import python_agent
 
 from tasks.discovery_platform import discovery_task
 from tasks.compliance import compliance_task
 from tasks.analyse_flows import flow_analysis_task
 from tasks.build_model import build_model_task
 from tasks.build_sharepoint import sharepoint_task
-from tasks.parser_mapping import parser_mapping_task
-from tasks.parser_code import parser_code_task
+
 
 crew = Crew(
     agents=[
@@ -23,24 +21,24 @@ crew = Crew(
         governance_agent,
         flow_agent,
         architect,
-        sharepoint_agent,
-        python_agent
+        sharepoint_agent
     ],
 
     tasks=[
-        discovery_task,        # discovered_schema.json
+        # Extract schema from repository artefacts
+        discovery_task,
 
-        compliance_task,       # compliance_schema.json
+        # Convert governance requirements into schema requirements
+        compliance_task,
 
-        flow_analysis_task,    # integration_schema.json        
+        # Extract integration relationships
+        flow_analysis_task,
 
-        build_model_task,      # canonical_schema.json
+        # Merge into canonical schema
+        build_model_task,
 
-        sharepoint_task,       # sharepoint_schema.json
-
-        parser_mapping_task,   # parser_mapping_spec.json
-
-        parser_code_task       # parser_generation_spec.json
+        # Generate SharePoint deployment schema
+        sharepoint_task
     ],
 
     process=Process.sequential,

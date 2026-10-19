@@ -39,35 +39,11 @@ OLLAMA_URL = "http://localhost:11434"
 #     temperature=0.2
 # )
 
-# --------------------------------------------------
-# Discovery, Compliance, Schema Synthesis
-# --------------------------------------------------
-# Responsible for:
-# - Discovery
-# - Compliance
-# - Canonical Schema
-#
-# Strong reasoning
-# Strong data modelling
-# Lowest temperature
-# --------------------------------------------------
-
 architect_llm = LLM(
-    model="ollama/qwen3:14b",
+    model="ollama/qwen3:32b",
     base_url=OLLAMA_URL,
     temperature=0.0
 )
-
-
-# --------------------------------------------------
-# Integration Analysis
-# --------------------------------------------------
-# Responsible for:
-# - Flow Analysis
-# - Integration Analysis
-#
-# Extract structure and relationships
-# --------------------------------------------------
 
 worker_llm = LLM(
     model="ollama/qwen3:14b",
@@ -75,25 +51,11 @@ worker_llm = LLM(
     temperature=0.0
 )
 
-
-# --------------------------------------------------
-# SharePoint Schema Generation
-# Parser Generation
-# Code Generation
-#
-# Strong preference for structured output
-# --------------------------------------------------
-
 coder_llm = LLM(
-    model="ollama/qwen3-coder:30b",
+    model="ollama/qwen2.5-coder:14b",
     base_url=OLLAMA_URL,
     temperature=0.0
 )
-
-
-# --------------------------------------------------
-# Validation / Review
-# --------------------------------------------------
 
 reviewer_llm = LLM(
     model="ollama/deepseek-r1:14b",

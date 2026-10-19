@@ -1,13 +1,11 @@
 from crewai import Task
 from agents.flow_analyst import flow_agent
 
+
 flow_analysis_task = Task(
     description="""
-    Analyse the supplied Power Automate artefacts:
-
-    - definition.json
-    - connectionsMap.json
-    - apisMap.json
+    Extract integration schema definitions from
+    Power Automate and integration artefacts.
 
     Repository Knowledge:
 
@@ -15,71 +13,89 @@ flow_analysis_task = Task(
 
     OBJECTIVE
 
-    Build an integration schema model which describes
-    how information moves between systems.
+    Generate integration_schema.json.
+
+    Recover how entities move between systems.
 
     CRITICAL
 
-    Model ENTITY TYPES, not records.
+    Model ENTITY TYPES only.
 
-    Ignore:
+    Never model:
 
+    - records
+    - examples
     - sample rows
     - qualification instances
     - unit instances
-    - example data
+    - assessment instances
 
-    Focus on:
+    Ignore business content.
+
+    Focus only on:
 
     - systems
     - entities
-    - relationships
     - integrations
+    - dependencies
+    - ownership
     - data movement
-    - transformation points
 
-    Treat supplied artefacts as the authoritative
-    source of integration evidence.
+    PRIORITY OF EVIDENCE
+
+    Priority 1:
+    - Power Automate definitions
+    - Parse JSON schemas
+    - API definitions
+    - Integration configurations
+
+    Priority 2:
+    - SharePoint lookup structures
+    - Repository schemas
+
+    Priority 3:
+    - Sample records
+
+    Sample records may only be used
+    to validate data structures.
+
+    They must never define entities.
 
     Extract:
 
+    - systems
     - source systems
     - destination systems
-    - connectors
-    - triggers
-    - actions
-    - entities referenced
-    - entities created
-    - entities updated
-    - entities deleted
-    - transformation points
-    - synchronization points
-    - publishing points
+    - entity ownership
+    - source-of-truth systems
+    - integration relationships
+    - entity flows
+    - dependencies
 
-    For every integration identify:
+    For each entity identify:
 
     - source system
-    - target system
-    - entity
-    - operation
-    - dependency
-
-    For every entity identify:
-
-    - system of record
-    - producing systems
+    - owning system
     - consuming systems
+
+    For each integration identify:
+
+    - source system
+    - destination system
+    - affected entity
+    - operation
+
+    Produce integration schema definitions only.
 
     Do not:
 
-    - produce reports
+    - analyse governance
     - assess risks
-    - recommend changes
-    - redesign solutions
+    - write reports
+    - write recommendations
+    - redesign integrations
 
-    Produce machine-readable schema artefacts only.
-
-    Output valid JSON only.
+    Output ONLY valid JSON.
     """,
 
     expected_output="""
@@ -92,23 +108,12 @@ flow_analysis_task = Task(
     }
   ],
 
-  "entities": [
+  "entity_ownership": [
     {
-      "name": "",
+      "entity": "",
       "source_of_truth": "",
-      "producing_systems": [],
+      "owning_system": "",
       "consuming_systems": []
-    }
-  ],
-
-  "integrations": [
-    {
-      "name": "",
-      "source_system": "",
-      "target_system": "",
-      "connector": "",
-      "trigger": "",
-      "operation": "create|update|delete|read"
     }
   ],
 
@@ -117,32 +122,23 @@ flow_analysis_task = Task(
       "entity": "",
       "source_system": "",
       "target_system": "",
-      "operation": ""
+      "operation": "create|update|delete|read"
     }
   ],
 
-  "transformations": [
+  "integration_relationships": [
     {
+      "source_system": "",
+      "target_system": "",
       "entity": "",
-      "source_structure": "",
-      "target_structure": ""
-    }
-  ],
-
-  "relationships": [
-    {
-      "source_entity": "",
-      "target_entity": "",
-      "relationship_type": "",
-      "cardinality": ""
+      "operation": ""
     }
   ],
 
   "dependencies": [
     {
-      "system": "",
-      "depends_on": "",
-      "reason": ""
+      "entity": "",
+      "depends_on": []
     }
   ]
 }

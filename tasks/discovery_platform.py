@@ -5,8 +5,7 @@ from agents.discovery import discovery_agent
 
 discovery_task = Task(
     description="""
-    Analyse the repository and extract the existing
-    platform schema.
+    Extract schema definitions from repository knowledge.
 
     Repository Knowledge:
 
@@ -14,62 +13,65 @@ discovery_task = Task(
 
     OBJECTIVE
 
-    Discover the current information model used by
-    the Academic Knowledge Platform.
+    Generate discovered_schema.json.
+
+    Recover the platform information model.
 
     CRITICAL
 
     Model ENTITY TYPES only.
 
-    Do not model:
+    Never model:
 
     - records
     - sample rows
+    - example values
     - qualification instances
     - unit instances
     - assessment instances
     - TAS instances
     - LAP instances
 
-    Ignore example data.
+    PRIORITY OF EVIDENCE
 
-    Focus on metadata and structure.
+    Priority 1:
+    - JSON schemas
+    - Parse JSON definitions
+    - Schema files
+    - Dataclasses
+    - Pydantic models
 
-    Analyse:
+    Priority 2:
+    - SharePoint column definitions
+    - SharePoint content types
+    - SharePoint lookup fields
 
-    - SharePoint Lists
-    - SharePoint Libraries
-    - SharePoint Content Types
-    - SharePoint Columns
-    - Power Automate Definitions
-    - Azure Functions
-    - Python Parsers
-    - Knowledge Repository Assets
-    - TAS Artefacts
-    - LAP Artefacts
-    - Assessment Artefacts
-    - Validation Artefacts
-    - Governance Artefacts
-    - Industry Engagement Artefacts
+    Priority 3:
+    - Power Automate definitions
+    - Integration definitions
 
-    Discover:
+    Priority 4:
+    - Sample records
 
-    - entity types
+    Sample records may ONLY be used
+    to validate field types.
+
+    They must never define entities.
+
+    Extract:
+
+    - entities
     - fields
-    - field types
+    - primary keys
+    - business keys
     - relationships
     - source systems
-    - authority sources
-    - metadata structures
 
     For each entity identify:
 
     - entity name
-    - description
     - source system
     - source artefact
-    - owner
-    - authority level
 
     For each field identify:
 
@@ -82,15 +84,20 @@ discovery_task = Task(
     - source entity
     - target entity
     - relationship type
+    - cardinality
 
-    Produce machine-readable schema artefacts.
+    Produce schema definitions only.
 
-    Output ONLY valid JSON.
+    Do not:
 
-    No markdown.
-    No reports.
-    No recommendations.
-    No commentary.
+    - analyse governance
+    - analyse compliance
+    - analyse workflows
+    - write reports
+    - write summaries
+    - create recommendations
+
+    Output valid JSON only.
     """,
 
     expected_output="""
@@ -98,23 +105,19 @@ discovery_task = Task(
   "source_systems": [
     {
       "name": "",
-      "type": "",
-      "authority_level": ""
+      "type": ""
     }
   ],
 
   "entities": [
     {
       "name": "",
-      "description": "",
-
       "source_system": "",
-
       "source_artefacts": [],
 
-      "owner": "",
+      "primary_key": "",
 
-      "authority_level": "",
+      "business_keys": [],
 
       "fields": [
         {
@@ -129,30 +132,9 @@ discovery_task = Task(
   "relationships": [
     {
       "source_entity": "",
-
       "target_entity": "",
-
       "relationship_type": "",
-
       "cardinality": ""
-    }
-  ],
-
-  "metadata": [
-    {
-      "entity": "",
-
-      "field": "",
-
-      "purpose": ""
-    }
-  ],
-
-  "document_types": [
-    {
-      "name": "",
-
-      "related_entity": ""
     }
   ]
 }

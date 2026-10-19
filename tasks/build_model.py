@@ -9,7 +9,7 @@ from tasks.analyse_flows import flow_analysis_task
 
 build_model_task = Task(
     description="""
-    Build the Canonical Academic Knowledge Platform Schema.
+    Generate the canonical Academic Knowledge Platform schema.
 
     Repository Knowledge:
 
@@ -23,102 +23,106 @@ build_model_task = Task(
 
     OBJECTIVE
 
-    Generate the authoritative schema for the
-    Academic Knowledge Platform.
+    Merge all discovered schema information into
+    a single canonical schema.
 
-    This schema will become the source of truth
-    for all downstream generators.
+    This schema becomes the authoritative source
+    for:
+
+    - SharePoint schema generation
+    - Parser generation
+    - Validation generation
+    - Power Automate generation
+    - Canvas integration
+    - Knowledge Repository storage
 
     CRITICAL
 
-    Model ENTITY TYPES.
+    Model ENTITY TYPES only.
 
-    Do not model:
+    Never model:
 
     - records
-    - sample data
+    - sample rows
+    - example values
     - qualification instances
     - unit instances
     - assessment instances
 
-    Ignore example values.
+    Ignore operational data.
 
-    The output must describe platform structure,
-    not platform content.
+    Focus exclusively on structure.
 
     MERGE
 
-    Discovery provides:
+    Discovery contributes:
 
     - entities
     - fields
+    - data types
     - relationships
-    - metadata
 
-    Compliance provides:
+    Compliance contributes:
 
     - mandatory entities
     - mandatory fields
-    - audit requirements
-    - governance requirements
+    - audit metadata
+    - ownership metadata
+    - approval metadata
+    - retention metadata
 
-    Integration provides:
+    Integration contributes:
 
-    - system relationships
-    - entity flows
     - source systems
-    - destination systems
+    - consuming systems
+    - entity flows
+    - integration relationships
+
+    NORMALISE
+
+    Ensure:
+
+    - entities are unique
+    - field names are consistent
+    - duplicate fields are removed
+    - duplicate entities are merged
+    - relationships are normalized
+    - metadata is reusable
 
     GENERATE
 
-    For each entity define:
+    For every entity define:
 
-    - schema name
-    - description
-    - source of truth
-    - owner
+    - entity name
     - primary key
+    - business keys
     - fields
-    - relationships
-    - audit metadata
 
-    For each field define:
+    For every field define:
 
-    - field name
+    - name
     - type
     - required
     - unique
-    - default value
-    - description
 
-    For each relationship define:
+    For every relationship define:
 
     - source entity
     - target entity
-    - cardinality
     - relationship type
+    - cardinality
 
-    OUTPUT REQUIREMENTS
+    Output schema definitions only.
 
-    The schema must be suitable for:
+    Do not generate:
 
-    - SharePoint list generation
-    - Content type generation
-    - Power Automate generation
-    - Parser validation
-    - Canvas publishing
-    - Governance controls
-    - Knowledge Repository storage
+    - reports
+    - architecture documents
+    - recommendations
+    - commentary
+    - implementation plans
 
-    Produce ONLY valid JSON.
-
-    Do not output markdown.
-
-    Do not output reports.
-
-    Do not output recommendations.
-
-    Do not output explanations.
+    Output ONLY valid JSON.
     """,
 
     expected_output="""
@@ -128,28 +132,17 @@ build_model_task = Task(
   "entities": [
     {
       "name": "",
-      "description": "",
-
-      "owner": "",
-
-      "source_of_truth": "",
 
       "primary_key": "",
 
-      "audit_enabled": true,
+      "business_keys": [],
 
       "fields": [
         {
           "name": "",
-          "type": "string|number|boolean|date|datetime|lookup|choice|person",
-
+          "type": "",
           "required": true,
-
-          "unique": false,
-
-          "default_value": null,
-
-          "description": ""
+          "unique": false
         }
       ]
     }
@@ -158,45 +151,44 @@ build_model_task = Task(
   "relationships": [
     {
       "source_entity": "",
-
       "target_entity": "",
-
-      "relationship_type":
-        "lookup|composition|aggregation|reference",
-
-      "cardinality":
-        "1:1|1:M|M:M"
+      "relationship_type": "",
+      "cardinality": ""
     }
   ],
 
   "source_systems": [
     {
       "name": "",
-
-      "authority_level": "",
-
       "entities": []
     }
   ],
 
-  "audit_fields": [
+  "audit_metadata": [
     {
-      "name": "",
-      "type": ""
+      "field_name": "",
+      "field_type": ""
     }
   ],
 
-  "ownership_fields": [
+  "ownership_metadata": [
     {
-      "name": "",
-      "type": ""
+      "field_name": "",
+      "field_type": ""
     }
   ],
 
-  "retention_fields": [
+  "approval_metadata": [
     {
-      "name": "",
-      "type": ""
+      "field_name": "",
+      "field_type": ""
+    }
+  ],
+
+  "retention_metadata": [
+    {
+      "field_name": "",
+      "field_type": ""
     }
   ]
 }

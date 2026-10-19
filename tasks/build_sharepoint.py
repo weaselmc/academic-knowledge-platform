@@ -7,104 +7,95 @@ from tasks.build_model import build_model_task
 
 sharepoint_task = Task(
     description="""
-    Generate SharePoint Online deployment schema.
+    Generate a SharePoint deployment schema.
 
-    Repository Knowledge:
+    The canonical schema is authoritative.
 
-    {knowledge}
+    Do not derive entities directly from repository artefacts.
 
-    Inputs:
+    INPUT
 
     - canonical_schema.json
 
     OBJECTIVE
 
-    Convert the canonical platform schema into
-    SharePoint implementation structures.
+    Transform the canonical schema into
+    SharePoint Online deployment structures.
 
-    The canonical schema is the source of truth.
+    The canonical schema is authoritative.
 
-    Do not perform:
+    CRITICAL
 
-    - governance analysis
-    - compliance analysis
-    - architecture analysis
-    - discovery analysis
+    Do not:
 
-    Do not create new entities.
+    - redesign entities
+    - redesign relationships
+    - create new entities
+    - perform architecture analysis
+    - perform governance analysis
+    - perform compliance analysis
+    - write recommendations
 
-    Do not redesign the platform.
+    Use the canonical schema exactly as defined.
 
-    Use the entities and relationships from the
-    canonical schema exactly as defined.
-
-    Generate SharePoint structures required for:
-
-    - Academic Master Data
-    - Qualification Management
-    - Course Management
-    - Unit Management
-    - TAS Management
-    - LAP Management
-    - Assessment Management
-    - Validation Management
-    - Industry Engagement
-    - Continuous Improvement
-    - Governance Records
+    Generate deployable SharePoint structures.
 
     For every entity generate:
 
-    - list name
-    - internal name
+    - list definition
+    - internal list name
+    - display name
     - columns
     - content type
     - indexes
 
+    For every field generate:
+
+    - SharePoint field type
+    - internal name
+    - display name
+    - required flag
+    - indexed flag
+
     For every relationship generate:
 
-    - lookup fields
+    - lookup columns
+    - lookup targets
     - relationship behaviour
-    - referential integrity requirements
 
     For document entities generate:
 
     - document libraries
-    - associated content types
     - metadata columns
+    - content types
 
-    Pay particular attention to:
+    The generated schema must support:
 
-    - Portfolio ownership
-    - Team ownership
-    - Qualification delivery ownership
+    - SharePoint Online
+    - Microsoft Graph provisioning
+    - PnP PowerShell provisioning
+    - Power Automate
+    - Canvas integration
 
-    The platform should support:
-
-    Qualification
-        -> QualificationDelivery
-            -> TAS
-                -> LAP
-                    -> Assessment
-
-    Generate deployment-ready SharePoint schema.
+    Produce deployment-ready definitions only.
 
     Output ONLY valid JSON.
 
     No markdown.
     No reports.
+    No commentary.
     No explanations.
-    No recommendations.
     """,
 
     expected_output="""
 {
-  "solution_name": "",
+  "site_name": "",
 
   "lists": [
     {
-      "name": "",
       "entity": "",
-      "description": "",
+      "internal_name": "",
+      "display_name": "",
 
       "columns": [
         {
@@ -121,8 +112,9 @@ sharepoint_task = Task(
 
   "document_libraries": [
     {
-      "name": "",
       "entity": "",
+      "internal_name": "",
+      "display_name": "",
       "content_type": ""
     }
   ],
@@ -135,45 +127,21 @@ sharepoint_task = Task(
     }
   ],
 
-  "site_columns": [
-    {
-      "internal_name": "",
-      "display_name": "",
-      "type": ""
-    }
-  ],
-
   "lookup_relationships": [
     {
       "source_list": "",
       "source_column": "",
       "target_list": "",
       "target_column": "",
-      "relationship_type": "1:1|1:M|M:M"
+      "cardinality": ""
     }
   ],
 
-  "managed_metadata": [
+  "indexes": [
     {
-      "term_set": "",
-      "terms": []
+      "list": "",
+      "columns": []
     }
-  ],
-
-  "permission_model": [
-    {
-      "entity": "",
-      "owner_group": "",
-      "contributor_group": "",
-      "reader_group": ""
-    }
-  ],
-
-  "deployment_order": [
-    "site_columns",
-    "content_types",
-    "lists",
-    "lookup_relationships"
   ]
 }
 """,

@@ -7,76 +7,91 @@ from tasks.discovery_platform import discovery_task
 
 compliance_task = Task(
     description="""
-    Generate compliance schema requirements.
+Generate compliance schema requirements.
 
-    Repository Knowledge:
+DEBUG INFORMATION
 
-    {knowledge}
+Knowledge Length:
+{knowledge_length}
 
-    Input:
+Repository Knowledge:
 
-    - discovered_schema.json
+{knowledge}
 
-    OBJECTIVE
+INPUT
 
-    Identify additional schema requirements that must
-    exist to satisfy compliance, governance,
-    auditability and evidence requirements.
+- discovered_schema.json
 
-    The output will be merged into:
+OBJECTIVE
 
-    - canonical_schema.json
+Identify additional schema requirements that must
+exist to satisfy compliance, governance,
+auditability and evidence requirements.
 
-    CRITICAL
+The output will be merged into:
 
-    Model ENTITY TYPES only.
+- canonical_schema.json
 
-    Never model:
+CRITICAL
 
-    - records
-    - sample rows
-    - example values
-    - qualification instances
-    - unit instances
-    - assessment instances
+Before generating compliance requirements:
 
-    Ignore operational data.
+1. Verify repository knowledge was received.
+2. Verify repository knowledge is not empty.
+3. Verify discovery_task output was received.
+4. Count discovered entities.
+5. Count discovered relationships.
+6. Count discovered fields.
+7. Record any validation failures.
 
-    Focus only on:
+Model ENTITY TYPES only.
 
-    - entities
-    - fields
-    - relationships
-    - metadata
-    - auditability
-    - ownership
-    - evidence
+Never model:
 
-    Use repository artefacts as evidence.
+- records
+- sample rows
+- example values
+- qualification instances
+- unit instances
+- assessment instances
 
-    Determine:
+Ignore operational data.
 
-    - mandatory entities
-    - mandatory fields
-    - mandatory relationships
-    - audit metadata
-    - ownership metadata
-    - approval metadata
-    - retention metadata
-    - evidence metadata
+Focus only on:
 
-    Do not analyse gaps.
+- entities
+- fields
+- relationships
+- metadata
+- auditability
+- ownership
+- evidence
 
-    Do not assess maturity.
+Use repository artefacts as evidence.
 
-    Do not write recommendations.
+Determine:
 
-    Do not write reports.
+- mandatory entities
+- mandatory fields
+- mandatory relationships
+- audit metadata
+- ownership metadata
+- approval metadata
+- retention metadata
+- evidence metadata
 
-    Generate schema requirements only.
+Do not analyse gaps.
 
-    Output valid JSON only.
-    """,
+Do not assess maturity.
+
+Do not write recommendations.
+
+Do not write reports.
+
+Generate schema requirements only.
+
+Output valid JSON only.
+""",
 
     context=[
         discovery_task
@@ -84,6 +99,15 @@ compliance_task = Task(
 
     expected_output="""
 {
+  "debug": {
+    "knowledge_received": true,
+    "knowledge_length": 0,
+    "discovered_entity_count": 0,
+    "discovered_relationship_count": 0,
+    "discovered_field_count": 0,
+    "validation_errors": []
+  },
+
   "required_entities": [
     {
       "name": "",

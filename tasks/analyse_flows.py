@@ -6,6 +6,8 @@ flow_analysis_task = Task(
     description="""
     Extract integration schema definitions from
     Power Automate and integration artefacts.
+    Knowledge Size:
+    {knowledge_length} characters
 
     Repository Knowledge:
 
@@ -96,6 +98,23 @@ flow_analysis_task = Task(
     - redesign integrations
 
     Output ONLY valid JSON.
+    Do not include:
+
+    - markdown
+    - explanations
+    - code fences
+    - commentary
+    - headings
+    - notes
+    - recommendations
+
+    The response must begin with:
+
+    {
+
+    and end with:
+
+    }
     """,
 
     expected_output="""
@@ -146,5 +165,8 @@ flow_analysis_task = Task(
 
     agent=flow_agent,
 
-    output_file="outputs/schema/integration_schema.json"
+    output_file="outputs/schema/integration_schema.json",
+    callback=lambda output: print(
+        f"\nFlow Analysis Output Size: {len(str(output)):,} chars"
+    )
 )

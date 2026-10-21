@@ -5,103 +5,134 @@ from agents.discovery import discovery_agent
 
 discovery_task = Task(
     description="""
-    Extract schema definitions from repository knowledge.
+Extract schema definitions from repository knowledge.
 
-    Repository Knowledge:
+DEBUG INFORMATION
 
-    {knowledge}
+Knowledge Length:
+{knowledge_length}
 
-    OBJECTIVE
+Repository Knowledge:
 
-    Generate discovered_schema.json.
+{knowledge}
 
-    Recover the platform information model.
+OBJECTIVE
 
-    CRITICAL
+Generate discovered_schema.json.
 
-    Model ENTITY TYPES only.
+Recover the platform information model.
 
-    Never model:
+DEBUG REQUIREMENTS
 
-    - records
-    - sample rows
-    - example values
-    - qualification instances
-    - unit instances
-    - assessment instances
-    - TAS instances
-    - LAP instances
+Before producing the schema:
 
-    PRIORITY OF EVIDENCE
+1. Verify knowledge was received.
+2. Verify knowledge is not empty.
+3. Identify source artefacts found.
+4. Count discovered entities.
+5. Count discovered fields.
+6. Count discovered relationships.
+7. Record any validation or extraction errors.
 
-    Priority 1:
-    - JSON schemas
-    - Parse JSON definitions
-    - Schema files
-    - Dataclasses
-    - Pydantic models
+CRITICAL
 
-    Priority 2:
-    - SharePoint column definitions
-    - SharePoint content types
-    - SharePoint lookup fields
+Model ENTITY TYPES only.
 
-    Priority 3:
-    - Power Automate definitions
-    - Integration definitions
+Never model:
 
-    Priority 4:
-    - Sample records
+- records
+- sample rows
+- example values
+- qualification instances
+- unit instances
+- assessment instances
+- TAS instances
+- LAP instances
 
-    Sample records may ONLY be used
-    to validate field types.
+PRIORITY OF EVIDENCE
 
-    They must never define entities.
+Priority 1:
 
-    Extract:
+- JSON schemas
+- Parse JSON definitions
+- Schema files
+- Dataclasses
+- Pydantic models
 
-    - entities
-    - fields
-    - primary keys
-    - business keys
-    - relationships
-    - source systems
+Priority 2:
 
-    For each entity identify:
+- SharePoint column definitions
+- SharePoint content types
+- SharePoint lookup fields
 
-    - entity name
-    - source system
-    - source artefact
+Priority 3:
 
-    For each field identify:
+- Power Automate definitions
+- Integration definitions
 
-    - field name
-    - field type
-    - required status
+Priority 4:
 
-    For each relationship identify:
+- Sample records
 
-    - source entity
-    - target entity
-    - relationship type
-    - cardinality
+Sample records may ONLY be used
+to validate field types.
 
-    Produce schema definitions only.
+They must never define entities.
 
-    Do not:
+Extract:
 
-    - analyse governance
-    - analyse compliance
-    - analyse workflows
-    - write reports
-    - write summaries
-    - create recommendations
+- entities
+- fields
+- primary keys
+- business keys
+- relationships
+- source systems
 
-    Output valid JSON only.
-    """,
+For each entity identify:
+
+- entity name
+- source system
+- source artefact
+
+For each field identify:
+
+- field name
+- field type
+- required status
+
+For each relationship identify:
+
+- source entity
+- target entity
+- relationship type
+- cardinality
+
+Produce schema definitions only.
+
+Do not:
+
+- analyse governance
+- analyse compliance
+- analyse workflows
+- write reports
+- write summaries
+- create recommendations
+
+Output valid JSON only.
+""",
 
     expected_output="""
 {
+  "debug": {
+    "knowledge_received": true,
+    "knowledge_length": 0,
+    "entity_count": 0,
+    "field_count": 0,
+    "relationship_count": 0,
+    "source_artefacts_detected": [],
+    "validation_errors": []
+  },
+
   "source_systems": [
     {
       "name": "",

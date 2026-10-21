@@ -7,85 +7,97 @@ from tasks.build_model import build_model_task
 
 sharepoint_task = Task(
     description="""
-    Generate a SharePoint deployment schema.
+Generate a SharePoint deployment schema.
 
-    The canonical schema is authoritative.
+The canonical schema provided by the previous task is the authoritative source.
 
-    Do not derive entities directly from repository artefacts.
+INPUT
 
-    INPUT
+- canonical_schema.json (from task context)
 
-    - canonical_schema.json
+OBJECTIVE
 
-    OBJECTIVE
+Transform the canonical schema into
+SharePoint Online deployment structures.
 
-    Transform the canonical schema into
-    SharePoint Online deployment structures.
+Use the canonical schema exactly as defined.
 
-    The canonical schema is authoritative.
+CRITICAL
 
-    CRITICAL
+Do not:
 
-    Do not:
+- redesign entities
+- redesign relationships
+- create new entities
+- infer additional entities
+- perform architecture analysis
+- perform governance analysis
+- perform compliance analysis
+- write recommendations
+- write reports
 
-    - redesign entities
-    - redesign relationships
-    - create new entities
-    - perform architecture analysis
-    - perform governance analysis
-    - perform compliance analysis
-    - write recommendations
+Generate deployable SharePoint structures only.
 
-    Use the canonical schema exactly as defined.
+Before generating output verify:
 
-    Generate deployable SharePoint structures.
+- entities are present
+- fields are present
+- relationships are present
 
-    For every entity generate:
+For every entity generate:
 
-    - list definition
-    - internal list name
-    - display name
-    - columns
-    - content type
-    - indexes
+- list definition
+- internal list name
+- display name
+- columns
+- content type
+- indexes
 
-    For every field generate:
+For every field generate:
 
-    - SharePoint field type
-    - internal name
-    - display name
-    - required flag
-    - indexed flag
+- SharePoint field type
+- internal name
+- display name
+- required flag
+- indexed flag
+- unique flag
 
-    For every relationship generate:
+For every relationship generate:
 
-    - lookup columns
-    - lookup targets
-    - relationship behaviour
+- lookup columns
+- lookup targets
+- relationship behaviour
 
-    For document entities generate:
+For document entities generate:
 
-    - document libraries
-    - metadata columns
-    - content types
+- document libraries
+- metadata columns
+- content types
 
-    The generated schema must support:
+The generated schema must support:
 
-    - SharePoint Online
-    - Microsoft Graph provisioning
-    - PnP PowerShell provisioning
-    - Power Automate
-    - Canvas integration
+- SharePoint Online
+- Microsoft Graph provisioning
+- PnP PowerShell provisioning
+- Power Automate
+- Canvas integration
 
-    Produce deployment-ready definitions only.
+OUTPUT RULES
 
-    Output ONLY valid JSON.
+Use only entities, fields and relationships
+defined in the canonical schema.
 
-    No markdown.
-    No reports.
-    No commentary.
-    No explanations.
-    """,
+Do not invent new structures.
+
+Produce deployment-ready definitions only.
+
+Output ONLY valid JSON.
+
+No markdown.
+No reports.
+No commentary.
+No explanations.
+""",
 
     expected_output="""
 {

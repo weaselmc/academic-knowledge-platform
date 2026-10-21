@@ -11,6 +11,10 @@ build_model_task = Task(
     description="""
     Generate the canonical Academic Knowledge Platform schema.
 
+    Debug
+    Repository size:
+    {knowledge_length} characters
+
     Repository Knowledge:
 
     {knowledge}

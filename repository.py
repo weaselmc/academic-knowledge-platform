@@ -12,10 +12,11 @@ class KnowledgeRepository:
     def load(self):
 
         knowledge = {
-            "python_files": {},
-            "json_files": {},
-            "markdown_files": {},
-            "yaml_files": {},
+            "schema_files": {},
+            "sharepoint_files": {},
+            "flow_files": {},
+            "python_models": {},
+            "documents": {},
             "other_files": {}
         }
 
@@ -26,65 +27,164 @@ class KnowledgeRepository:
 
             try:
 
-                if file.suffix.lower() == ".py":
+                suffix = file.suffix.lower()
 
-                    knowledge["python_files"][str(file)] = (
-                        file.read_text(
-                            encoding="utf-8",
-                            errors="ignore"
-                        )
+                # --------------------------------------------------
+                # JSON
+                # --------------------------------------------------
+
+                if suffix == ".json":
+
+                    raw = file.read_text(
+                        encoding="utf-8",
+                        errors="ignore"
                     )
-
-                elif file.suffix.lower() == ".json":
 
                     try:
-
-                        knowledge["json_files"][str(file)] = (
-                            json.loads(
-                                file.read_text(
-                                    encoding="utf-8",
-                                    errors="ignore"
-                                )
-                            )
-                        )
-
+                        content = json.loads(raw)
                     except Exception:
+                        content = raw
 
-                        knowledge["json_files"][str(file)] = (
-                            file.read_text(
-                                encoding="utf-8",
-                                errors="ignore"
-                            )
-                        )
+                    lower_name = file.name.lower()
 
-                elif file.suffix.lower() in [".md", ".markdown"]:
+                    if any(
+                        x in lower_name
+                        for x in [
+                            "schema",
+                            "model",
+                            "entity",
+                            "definition"
+                        ]
+                    ):
 
-                    knowledge["markdown_files"][str(file)] = (
-                        file.read_text(
-                            encoding="utf-8",
-                            errors="ignore"
-                        )
+                        knowledge["schema_files"][
+                            str(file)
+                        ] = content
+
+                    elif any(
+                        x in lower_name
+                        for x in [
+                            "sharepoint",
+                            "list",
+                            "column",
+                            "contenttype"
+                        ]
+                    ):
+
+                        knowledge["sharepoint_files"][
+                            str(file)
+                        ] = content
+
+                    elif any(
+                        x in lower_name
+                        for x in [
+                            "flow",
+                            "powerautomate",
+                            "logicapp",
+                            "workflow"
+                        ]
+                    ):
+
+                        knowledge["flow_files"][
+                            str(file)
+                        ] = content
+
+                    else:
+
+                        knowledge["other_files"][
+                            str(file)
+                        ] = content
+
+                # --------------------------------------------------
+                # PYTHON
+                # --------------------------------------------------
+
+                elif suffix == ".py":
+
+                    text = file.read_text(
+                        encoding="utf-8",
+                        errors="ignore"
                     )
 
-                elif file.suffix.lower() in [".yaml", ".yml"]:
+                    # only keep likely schema models
+                    if any(
+                        pattern in text
+                        for pattern in [
+                            "BaseModel",
+                            "@dataclass",
+                            "TypedDict",
+                            "Field(",
+                            "class "
+                        ]
+                    ):
 
-                    knowledge["yaml_files"][str(file)] = (
-                        file.read_text(
-                            encoding="utf-8",
-                            errors="ignore"
-                        )
+                        knowledge["python_models"][
+                            str(file)
+                        ] = text
+
+                # --------------------------------------------------
+                # DOCUMENTATION
+                # --------------------------------------------------
+
+                elif suffix in [".md", ".markdown"]:
+
+                    knowledge["documents"][
+                        str(file)
+                    ] = file.read_text(
+                        encoding="utf-8",
+                        errors="ignore"
                     )
+
+                # --------------------------------------------------
+                # YAML
+                # --------------------------------------------------
+
+                elif suffix in [".yaml", ".yml"]:
+
+                    text = file.read_text(
+                        encoding="utf-8",
+                        errors="ignore"
+                    )
+
+                    lower_name = file.name.lower()
+
+                    if any(
+                        x in lower_name
+                        for x in [
+                            "flow",
+                            "workflow",
+                            "logicapp"
+                        ]
+                    ):
+
+                        knowledge["flow_files"][
+                            str(file)
+                        ] = text
+
+                    else:
+
+                        knowledge["documents"][
+                            str(file)
+                        ] = text
+
+                # --------------------------------------------------
+                # EVERYTHING ELSE
+                # --------------------------------------------------
 
                 else:
 
-                    knowledge["other_files"][str(file)] = {
+                    knowledge["other_files"][
+                        str(file)
+                    ] = {
                         "name": file.name,
-                        "extension": file.suffix
+                        "extension": suffix
                     }
 
             except Exception as ex:
 
-                print(f"Failed to load {file}: {ex}")
+                print(
+                    f"Failed to load {file}: {ex}"
+                )
 
         return knowledge
 
@@ -92,4 +192,12 @@ class KnowledgeRepository:
 
         knowledge = self.load()
 
-        
+        print("\nRepository Summary")
+        print("-" * 50)
+
+        for category, items in knowledge.items():
+            print(
+                f"{category}: {len(items)} artefacts"
+            )
+
+        return knowledge

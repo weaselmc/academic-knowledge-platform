@@ -1,5 +1,3 @@
-# repository.py
-
 from pathlib import Path
 import json
 
@@ -9,15 +7,77 @@ class KnowledgeRepository:
     def __init__(self, data_path="data"):
         self.data_path = Path(data_path)
 
+    def _extract_parse_json_schemas(self, content):
+
+        schemas = {}
+
+        try:
+
+            actions = (
+                content
+                .get("properties", {})
+                .get("definition", {})
+                .get("actions", {})
+            )
+
+            for action_name, action in actions.items():
+
+                if (
+                    isinstance(action, dict)
+                    and action.get("type") == "ParseJson"
+                ):
+
+                    schema = (
+                        action
+                        .get("inputs", {})
+                        .get("schema")
+                    )
+
+                    if schema:
+                        schemas[action_name] = schema
+
+        except Exception:
+            pass
+
+        return schemas
+
+    def _is_sharepoint_schema(self, content):
+
+        if not isinstance(content, dict):
+            return False
+
+        sharepoint_keys = [
+            "list_name",
+            "listName",
+            "sharepoint_column",
+            "lookupList",
+            "lookupField",
+            "columns",
+            "fields"
+        ]
+
+        return any(
+            key in content
+            for key in sharepoint_keys
+        )
+
+    def _is_python_model(self, text):
+
+        return any(
+            token in text
+            for token in [
+                "BaseModel",
+                "@dataclass",
+                "TypedDict"
+            ]
+        )
+
     def load(self):
 
         knowledge = {
-            "schema_files": {},
-            "sharepoint_files": {},
-            "flow_files": {},
-            "python_models": {},
-            "documents": {},
-            "other_files": {}
+            "schemas": {},
+            "sharepoint": {},
+            "models": {}
         }
 
         for file in self.data_path.rglob("*"):
@@ -29,75 +89,64 @@ class KnowledgeRepository:
 
                 suffix = file.suffix.lower()
 
-                # --------------------------------------------------
-                # JSON
-                # --------------------------------------------------
+                # ==========================================
+                # JSON FILES
+                # ==========================================
 
                 if suffix == ".json":
 
-                    raw = file.read_text(
-                        encoding="utf-8",
-                        errors="ignore"
+                    try:
+
+                        content = json.loads(
+                            file.read_text(
+                                encoding="utf-8",
+                                errors="ignore"
+                            )
+                        )
+
+                    except Exception:
+                        continue
+
+                    # Power Automate Parse JSON schemas
+
+                    parse_schemas = (
+                        self._extract_parse_json_schemas(
+                            content
+                        )
                     )
 
-                    try:
-                        content = json.loads(raw)
-                    except Exception:
-                        content = raw
+                    if parse_schemas:
 
-                    lower_name = file.name.lower()
+                        knowledge["schemas"][
+                            str(file)
+                        ] = parse_schemas
 
-                    if any(
-                        x in lower_name
-                        for x in [
-                            "schema",
-                            "model",
-                            "entity",
-                            "definition"
-                        ]
+                        continue
+
+                    # SharePoint list definitions
+
+                    if self._is_sharepoint_schema(content):
+
+                        knowledge["sharepoint"][
+                            str(file)
+                        ] = content
+
+                        continue
+
+                    # Generic JSON schema
+
+                    if (
+                        isinstance(content, dict)
+                        and "properties" in content
                     ):
 
-                        knowledge["schema_files"][
+                        knowledge["schemas"][
                             str(file)
                         ] = content
 
-                    elif any(
-                        x in lower_name
-                        for x in [
-                            "sharepoint",
-                            "list",
-                            "column",
-                            "contenttype"
-                        ]
-                    ):
-
-                        knowledge["sharepoint_files"][
-                            str(file)
-                        ] = content
-
-                    elif any(
-                        x in lower_name
-                        for x in [
-                            "flow",
-                            "powerautomate",
-                            "logicapp",
-                            "workflow"
-                        ]
-                    ):
-
-                        knowledge["flow_files"][
-                            str(file)
-                        ] = content
-
-                    else:
-
-                        knowledge["other_files"][
-                            str(file)
-                        ] = content
-
-                # --------------------------------------------------
-                # PYTHON
-                # --------------------------------------------------
+                # ==========================================
+                # PYTHON MODELS
+                # ==========================================
 
                 elif suffix == ".py":
 
@@ -106,79 +155,11 @@ class KnowledgeRepository:
                         errors="ignore"
                     )
 
-                    # only keep likely schema models
-                    if any(
-                        pattern in text
-                        for pattern in [
-                            "BaseModel",
-                            "@dataclass",
-                            "TypedDict",
-                            "Field(",
-                            "class "
-                        ]
-                    ):
+                    if self._is_python_model(text):
 
-                        knowledge["python_models"][
+                        knowledge["models"][
                             str(file)
                         ] = text
-
-                # --------------------------------------------------
-                # DOCUMENTATION
-                # --------------------------------------------------
-
-                elif suffix in [".md", ".markdown"]:
-
-                    knowledge["documents"][
-                        str(file)
-                    ] = file.read_text(
-                        encoding="utf-8",
-                        errors="ignore"
-                    )
-
-                # --------------------------------------------------
-                # YAML
-                # --------------------------------------------------
-
-                elif suffix in [".yaml", ".yml"]:
-
-                    text = file.read_text(
-                        encoding="utf-8",
-                        errors="ignore"
-                    )
-
-                    lower_name = file.name.lower()
-
-                    if any(
-                        x in lower_name
-                        for x in [
-                            "flow",
-                            "workflow",
-                            "logicapp"
-                        ]
-                    ):
-
-                        knowledge["flow_files"][
-                            str(file)
-                        ] = text
-
-                    else:
-
-                        knowledge["documents"][
-                            str(file)
-                        ] = text
-
-                # --------------------------------------------------
-                # EVERYTHING ELSE
-                # --------------------------------------------------
-
-                else:
-
-                    knowledge["other_files"][
-                        str(file)
-                    ] = {
-                        "name": file.name,
-                        "extension": suffix
-                    }
 
             except Exception as ex:
 
@@ -196,6 +177,7 @@ class KnowledgeRepository:
         print("-" * 50)
 
         for category, items in knowledge.items():
+
             print(
                 f"{category}: {len(items)} artefacts"
             )

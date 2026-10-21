@@ -40,7 +40,7 @@ OLLAMA_URL = "http://localhost:11434"
 # )
 
 architect_llm = LLM(
-    model="ollama/qwen3:32b",
+    model="ollama/qwen3:14b",
     base_url=OLLAMA_URL,
     temperature=0.0
 )
